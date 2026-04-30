@@ -5,4 +5,4 @@
 ## Content 📘
 | Folder  |
 | -- |
-| ['Parts listo'](https://github.com/tereneitor-RAB/Tereneitor_RAB/tree/main/Parts%20listo)|
+| [Parts listo](https://github.com/tereneitor-RAB/Tereneitor_RAB/tree/main/Parts%20listo)|
