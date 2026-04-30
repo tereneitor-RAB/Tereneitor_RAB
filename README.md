@@ -1,7 +1,7 @@
 # Tereneitor_RAB
 ## Competitors of this team
-- Daniel Rafael Roman Rodriguez - 17 years old
-- Luis Rios Santos - 17 years old
+- Daniel Rafael Roman Rodriguez - 18 years old
+- Luis Rios Santos - 19 years old
 ## Content 📘
 | Folder  |
 | -- |
