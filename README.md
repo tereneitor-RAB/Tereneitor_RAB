@@ -5,8 +5,8 @@
   <img width="1600" height="1200" alt="WhatsApp Image 2026-04-30 at 2 58 54 PM" src="https://github.com/user-attachments/assets/fd449b55-e038-4593-a76d-8b9697f3a731" />
 
 ## Content 📘
-| Folder  |
-| -- |
+| Folder  | content |
+| -- | -- |
 | [Parts listo](https://github.com/tereneitor-RAB/Tereneitor_RAB/tree/main/Parts%20listo)|
 | [Team Photos](https://github.com/tereneitor-RAB/Tereneitor_RAB/tree/main/Team%20Photos)|
 |[Vehicle Photos](https://github.com/tereneitor-RAB/Tereneitor_RAB/tree/main/Vehicle%20Photos)|
