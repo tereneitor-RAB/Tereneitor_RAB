@@ -7,7 +7,7 @@
 ## Content 📘
 | Folder  | content |
 | -- | -- |
-| [Parts listo](https://github.com/tereneitor-RAB/Tereneitor_RAB/tree/main/Parts%20listo)| [Camera 2.1V](https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Parts%20listo/Camera.webp)/[Chasis](https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Parts%20listo/Chasis%20.png)
+| [Parts listo](https://github.com/tereneitor-RAB/Tereneitor_RAB/tree/main/Parts%20listo)| [Camera 2.1V](https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Parts%20listo/Camera.webp),[Chasis](https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Parts%20listo/Chasis%20.png)
 | [Team Photos](https://github.com/tereneitor-RAB/Tereneitor_RAB/tree/main/Team%20Photos)|
 |[Vehicle Photos](https://github.com/tereneitor-RAB/Tereneitor_RAB/tree/main/Vehicle%20Photos)|
 
