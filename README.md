@@ -18,6 +18,7 @@
 |[Regional March 28](https://github.com/users/tereneitor-RAB/projects/5)|
 |[regional April 18](https://github.com/users/tereneitor-RAB/projects/7)|
 |[preparation for the national](https://github.com/users/tereneitor-RAB/projects/8)|
+|[preparation for the California Open Championship](https://github.com/users/tereneitor-RAB/projects/10)|
 
 
 **WHAT IS THIS CATEGORY ABOUT❓**
