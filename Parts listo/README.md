@@ -9,7 +9,7 @@
 |  3 | LDROBOT D500 LiDAR     |        1 | Distance sensor used to detect walls, obstacles, and openings |
 |  4 | L298N Motor Driver     |        1 | Controls the DC motors                                        |
 |  5 | Servo Motor            |        1 | Controls the steering mechanism                               |
-|  6 | DC Motors              |        4 | Provides movement and propulsion                              |
+|  6 | DC Motors              |        1 | Provides movement and propulsion                              |
 |  7 | Wheels                 |        4 | Allows the robot to move around the competition field         |
 |  8 | Robot Chassis          |        1 | Main structural platform of the robot                         |
 |  9 | Battery                |        1 | Provides power to the robot's electrical system               |
@@ -18,7 +18,7 @@
 | 12 | Jumper Wires / Cables  |        — | Used for electrical and signal connections                    |
 | 13 | Screws and Spacers     |        — | Used to mount and secure the components                       |
 | 14 | Camera Mount           |        1 | Secures the camera to the robot                               |
-| 15 | LiDAR Mount            |        1 | Secures the LiDAR sensor to the robot                         |
+
 
 ## ⚡ Electronic Components
 
