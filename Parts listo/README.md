@@ -15,10 +15,11 @@
 |  9 | Battery                |        1 | Provides power to the robot's electrical system               |
 | 10 | Push Button            |        1 | Used to start the robot                                       |
 | 11 | Green LED              |        1 | Indicates that the robot is ready to start                    |
-| 12 | Jumper Wires / Cables  |        — | Used for electrical and signal connections                    |
-| 13 | Screws and Spacers     |        — | Used to mount and secure the components                       |
+| 12 | Jumper Wires / Cables  |       16 | Used for electrical and signal connections                    |
+| 13 | Screws and nuts        |       52 | Used to mount and secure the components                       |
 | 14 | Camera Mount           |        1 | Secures the camera to the robot                               |
-
+| 15 | thread separators      |       12 | to separate and join the parts of the chassis                 |
+| 16 | publisher              |        1 | to start programming                                          |
 
 ## ⚡ Electronic Components
 
