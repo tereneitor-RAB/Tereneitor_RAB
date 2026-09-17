@@ -1,4 +1,8 @@
 # Tereneitor_RAB| Future Engineers | Puerto Rico🚀
+
+## Robot image
+<img width="1600" height="1066" alt="WhatsApp Image 2026-09-17 at 12 14 56 AM" src="https://github.com/user-attachments/assets/b2864fe8-c605-4c78-8ea9-276670d80be7" />
+
 ## Competitors of this team
 - Daniel Rafael Roman Rodriguez - 19 years old
 - Luis Rios Santos - 19 years old
