@@ -108,6 +108,122 @@ cat /etc/os-release
 
 If the Raspberry Pi OS information is displayed correctly, the installation is complete.
 
-### Result
+----------------------------------------------------------------------------
 
-The Raspberry Pi 4B is now ready for the next stage of the project, including the installation and configuration of the software and hardware required for the robot.
+# Required Libraries Installation
+
+After installing Raspberry Pi OS, the next step is to install the Python libraries required by the robot.
+
+## 1. Update the System
+
+First, update the package list:
+
+```bash
+sudo apt update
+sudo apt full-upgrade -y
+```
+
+## 2. Install Python and Basic Tools
+
+Install Python and the required development tools:
+
+```bash
+sudo apt install -y python3 python3-pip python3-dev
+```
+
+## 3. Install OpenCV
+
+OpenCV is used for image processing and detecting colors and objects with the Raspberry Pi Camera.
+
+```bash
+sudo apt install -y python3-opencv
+```
+
+Verify the installation:
+
+```bash
+python3 -c "import cv2; print(cv2.__version__)"
+```
+
+## 4. Install Picamera2
+
+Picamera2 is used to control the Raspberry Pi Camera.
+
+```bash
+sudo apt install -y python3-picamera2
+```
+
+Verify the installation:
+
+```bash
+python3 -c "from picamera2 import Picamera2; print('Picamera2 OK')"
+```
+
+## 5. Install GPIO Libraries
+
+The GPIO pins are used to control the button, LEDs, motor driver, and servo.
+
+Install RPi.GPIO:
+
+```bash
+sudo apt install -y python3-rpi.gpio
+```
+
+If the project uses GPIO Zero, it can also be installed with:
+
+```bash
+sudo apt install -y python3-gpiozero
+```
+
+## 6. Install PySerial
+
+PySerial is used for serial communication between the Raspberry Pi and the LiDAR D500.
+
+```bash
+sudo apt install -y python3-serial
+```
+
+Verify the installation:
+
+```bash
+python3 -c "import serial; print('PySerial OK')"
+```
+
+## 7. Install NumPy
+
+NumPy is used by OpenCV and other parts of the vision system for numerical and image data processing.
+
+```bash
+sudo apt install -y python3-numpy
+```
+
+Verify the installation:
+
+```bash
+python3 -c "import numpy; print(numpy.__version__)"
+```
+
+## 8. Install All Main Libraries
+
+The main libraries used by the robot can also be installed together:
+
+```bash
+sudo apt install -y python3-opencv python3-picamera2 python3-rpi.gpio python3-gpiozero python3-serial python3-numpy
+```
+
+## 9. Test the Main Libraries
+
+Run the following command to check that the main Python libraries can be imported:
+
+```bash
+python3 -c "import cv2, serial, numpy; from picamera2 import Picamera2; import RPi.GPIO; print('All main libraries installed successfully')"
+```
+
+If the terminal displays:
+
+```text
+All main libraries installed successfully
+```
+
+the main software dependencies are ready.
+
