@@ -52,4 +52,4 @@ WRO provides us with the official rules for this category of Future Engineers.
 - [Official rules](https://wro-association.org/wp-content/uploads/WRO-2026-Future-Engineers-Self-Driving-Cars-General-Rules.pdf)
 -------------------------------------------------------------------------
 
-# [Explanation of the programming](https://github.com/tereneitor-RAB/Tereneitor_RAB/tree/main/Videos#readme)
+# [Explanation of the programming](https://github.com/tereneitor-RAB/Tereneitor_RAB/tree/main/src#readme)
