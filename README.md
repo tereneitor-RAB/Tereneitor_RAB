@@ -28,6 +28,10 @@
 
 ------------------------------------------------------------
 
+[youtube channel](https://www.youtube.com/@Tereneitor_RedandBlue/videos)
+
+------------------------------------------------------------
+
 # WHAT IS THIS CATEGORY ABOUT❓
 <img width="2500" height="1427" alt="image" src="https://github.com/user-attachments/assets/08d068fb-b5f2-45bb-9f0e-70b7402af340" />
 
