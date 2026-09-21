@@ -1,4 +1,4 @@
-# The codes and their explanations are attached to this folder.
+# Attached to this folder is the robot's programming and an explanation of the programming.
 
 # explanation of robot programming
 
