@@ -227,3 +227,4 @@ All main libraries installed successfully
 
 the main software dependencies are ready.
 
+- # After downloading the operating system and libraries on the Raspberry Pi 4B, it would be 100% ready to run the programming explained above.
