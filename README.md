@@ -28,7 +28,7 @@
 
 ------------------------------------------------------------
 
-[youtube channel](https://www.youtube.com/@Tereneitor_RedandBlue/videos)
+# [youtube channel](https://www.youtube.com/@Tereneitor_RedandBlue/videos)
 
 ------------------------------------------------------------
 
