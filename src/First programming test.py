@@ -1068,7 +1068,7 @@ def reversa_emergencia():
 
 
 # ============================================================
-# EVASIÃƒÆ’Ã¢â‚¬Å“N POR COLOR
+# EVASION POR COLOR
 # ============================================================
 
 def evitar_obstaculo(color):
@@ -1394,8 +1394,8 @@ def girar_hacia_lado_abierto():
     # en actualizar_servo() y el motor no pega un cambio brusco.
     motor_avanzar(72)
 
-
-# RADAR 360Ãƒâ€šÃ‚Â°
+# ===========================================================
+# RADAR 360°
 # ============================================================
 
 RADAR_TAMANO = 400
@@ -1639,7 +1639,7 @@ if lidar is not None:
 
 
 # ============================================================
-# CÃƒÆ’Ã¯Â¿Â½MARA
+# CAMARA
 # ============================================================
 
 picam2 = Picamera2()
@@ -1666,7 +1666,7 @@ FRANJA_Y_FINAL = 310
 
 
 # ============================================================
-# ESPERAR BOTÃƒÆ’Ã¢â‚¬Å“N
+# ESPERAR BOTON
 # ============================================================
 
 print()
@@ -1675,11 +1675,11 @@ print(
 )
 
 print(
-    " ROBOT AUTÃƒÆ’Ã¢â‚¬Å“NOMO"
+    " ROBOT AUTONOMO"
 )
 
 print(
-    " SERVO 180Ãƒâ€šÃ‚Â° SUAVE"
+    " SERVO 180° SUAVE"
 )
 
 print(
@@ -1691,7 +1691,7 @@ print(
 )
 
 print(
-    "Servo apagado hasta pulsar botÃƒÆ’Ã‚Â³n."
+    "Servo apagado hasta pulsar boton."
 )
 
 print()
@@ -1765,7 +1765,7 @@ while GPIO.input(BOTON) == GPIO.HIGH:
 
 print()
 print(
-    "BOTÃƒÆ’Ã¢â‚¬Å“N PRESIONADO"
+    "BOTON PRESIONADO"
 )
 
 print(
@@ -1795,7 +1795,7 @@ try:
     while True:
 
         # ----------------------------------------------------
-        # CÃƒÆ’Ã¯Â¿Â½MARA
+        # CAMARA
         # ----------------------------------------------------
 
         frame = picam2.capture_array()
@@ -1826,7 +1826,7 @@ try:
         derecha = distancia_derecha()
 
         # ----------------------------------------------------
-        # INFORMACIÃƒÆ’Ã¢â‚¬Å“N
+        # INFORMACION
         # ----------------------------------------------------
 
         ahora = time.time()
@@ -1875,7 +1875,7 @@ try:
             )
 
         # ====================================================
-        # OBSTÃƒÆ’Ã¯Â¿Â½CULO / PRECAUCIÃƒÆ’Ã¢â‚¬Å“N
+        # OBSTACULO / PRECAUCION
         # ====================================================
 
         elif (
@@ -1904,17 +1904,12 @@ try:
 
             controlar_paredes()
 
-        # ----------------------------------------------------
-        # ACTUALIZAR SERVO DESPUÃƒÆ’Ã¢â‚¬Â°S DE DECIDIR LA DIRECCIÃƒÆ’Ã¢â‚¬Å“N
-        # ----------------------------------------------------
-        # Primero se decide el nuevo objetivo y luego se mueve
-        # el servo. Asi no ejecuta un paso del objetivo anterior
-        # que podia causar el mini giro contrario.
+        
 
         actualizar_servo()
 
         # ----------------------------------------------------
-        # MOSTRAR CÃƒÆ’Ã¯Â¿Â½MARA
+        # MOSTRAR CAMARA
         # ----------------------------------------------------
 
         camara_bgr = cv2.cvtColor(
