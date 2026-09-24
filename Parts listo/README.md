@@ -20,7 +20,7 @@
 | 14 | Camera Mount           |        1 | Secures the camera to the robot                               |
 | 15 | thread separators      |       12 | to separate and join the parts of the chassis                 |
 | 16 | publisher              |        1 | to start programming                                          |
-| 17 | MPU 6050               |        1 | Monitor the gigabytes                                         |
+| 17 | MPU 6050               |        1 | Monitor the turns                                             |
 
 ## ⚡ Electronic Components
 
