@@ -73,10 +73,12 @@ ultimo_movimiento_servo = 0.0
 
 
 def activar_servo():
+
     global servo_activo
     global ultimo_movimiento_servo
 
     if not servo_activo:
+
         servo_pwm.ChangeDutyCycle(
             2.5 + (SERVO_CENTRO / 180.0) * 10.0
         )
@@ -87,9 +89,11 @@ def activar_servo():
 
 
 def desactivar_servo():
+
     global servo_activo
 
     if servo_activo:
+
         servo_pwm.ChangeDutyCycle(0)
         servo_activo = False
 
@@ -107,6 +111,7 @@ SERVO_INTERVALO = 0.015
 
 
 def establecer_objetivo_servo(angulo):
+
     global servo_objetivo
 
     servo_objetivo = max(
@@ -116,6 +121,7 @@ def establecer_objetivo_servo(angulo):
 
 
 def actualizar_servo():
+
     global servo_angulo_actual
     global ultimo_movimiento_servo
 
@@ -163,6 +169,7 @@ def actualizar_servo():
 
 
 def mover_servo_suave(angulo):
+
     # Conservamos el nombre para no romper otras partes del programa,
     # pero ahora el movimiento es directo.
     establecer_objetivo_servo(angulo)
@@ -184,6 +191,7 @@ VELOCIDAD = 89
 
 
 def motor_avanzar(velocidad=VELOCIDAD):
+
     GPIO.output(
         MOTOR_IN3,
         GPIO.HIGH
@@ -200,6 +208,7 @@ def motor_avanzar(velocidad=VELOCIDAD):
 
 
 def motor_retroceder(velocidad=90):
+
     GPIO.output(
         MOTOR_IN3,
         GPIO.LOW
@@ -216,6 +225,7 @@ def motor_retroceder(velocidad=90):
 
 
 def motor_parar():
+
     motor_pwm.ChangeDutyCycle(0)
 
     GPIO.output(
@@ -237,6 +247,7 @@ PUERTO_LIDAR = "/dev/serial0"
 BAUDRATE = 230400
 
 try:
+
     lidar = serial.Serial(
         PUERTO_LIDAR,
         BAUDRATE,
@@ -249,6 +260,7 @@ try:
     )
 
 except Exception as e:
+
     print(
         "ERROR LIDAR:",
         e
@@ -267,19 +279,24 @@ lock_lidar = threading.Lock()
 # ============================================================
 
 def crc8(data):
+
     crc = 0
 
     for byte in data:
+
         crc ^= byte
 
         for _ in range(8):
+
             if crc & 0x80:
+
                 crc = (
                     (crc << 1)
                     ^ 0x4D
                 ) & 0xFF
 
             else:
+
                 crc = (
                     crc << 1
                 ) & 0xFF
@@ -292,6 +309,7 @@ def crc8(data):
 # ============================================================
 
 def leer_lidar():
+
     global puntos_lidar
 
     if lidar is None:
@@ -300,18 +318,22 @@ def leer_lidar():
     buffer = bytearray()
 
     while True:
+
         try:
+
             datos = lidar.read(256)
 
             if datos:
                 buffer.extend(datos)
 
             while len(buffer) >= 47:
+
                 posicion = buffer.find(
                     b'\x54'
                 )
 
                 if posicion < 0:
+
                     buffer.clear()
                     break
 
@@ -324,12 +346,14 @@ def leer_lidar():
                 paquete = buffer[:47]
 
                 if paquete[1] != 0x2C:
+
                     del buffer[0]
                     continue
 
                 if crc8(
                     paquete[:46]
                 ) != paquete[46]:
+
                     del buffer[0]
                     continue
 
@@ -348,12 +372,14 @@ def leer_lidar():
                 )
 
                 if angulo_final >= angulo_inicio:
+
                     diferencia = (
                         angulo_final
                         - angulo_inicio
                     )
 
                 else:
+
                     diferencia = (
                         360
                         - angulo_inicio
@@ -363,6 +389,7 @@ def leer_lidar():
                 nuevos_puntos = []
 
                 for i in range(12):
+
                     indice = 6 + i * 3
 
                     distancia = int.from_bytes(
@@ -389,6 +416,7 @@ def leer_lidar():
                         <= distancia
                         <= 12000
                     ):
+
                         nuevos_puntos.append(
                             (
                                 angulo,
@@ -399,6 +427,7 @@ def leer_lidar():
                         )
 
                 with lock_lidar:
+
                     puntos_lidar.extend(
                         nuevos_puntos
                     )
@@ -414,6 +443,7 @@ def leer_lidar():
                 del buffer[:47]
 
         except Exception as e:
+
             print(
                 "Error LIDAR:",
                 e
@@ -427,6 +457,7 @@ def leer_lidar():
 # ============================================================
 
 def lidar_a_pantalla(angulo):
+
     # FRENTE = 0
     # DERECHA = 90
     # ATRAS = 180
@@ -438,6 +469,7 @@ def lidar_a_pantalla(angulo):
 
 
 def angulo_robot_a_lidar(angulo_robot):
+
     return (
         angulo_robot + 90
     ) % 360
@@ -452,6 +484,7 @@ def distancia_zona(
     ancho=15,
     distancia_max=6000
 ):
+
     objetivo = (
         angulo_robot_a_lidar(
             angulo_centro
@@ -461,12 +494,14 @@ def distancia_zona(
     valores = []
 
     with lock_lidar:
+
         for (
             angulo,
             distancia,
             intensidad,
             tiempo_punto
         ) in puntos_lidar:
+
             diferencia = abs(
                 (
                     angulo
@@ -477,11 +512,13 @@ def distancia_zona(
             )
 
             if diferencia <= ancho:
+
                 if (
                     50
                     <= distancia
                     <= distancia_max
                 ):
+
                     valores.append(
                         distancia
                     )
@@ -508,6 +545,7 @@ def distancia_zona(
 
 
 def distancia_frente():
+
     # Zona frontal mas amplia para detectar la pared antes
     # y comenzar el giro con anticipacion.
     return distancia_zona(
@@ -518,6 +556,7 @@ def distancia_frente():
 
 
 def distancia_izquierda():
+
     return distancia_zona(
         -90,
         18,
@@ -526,6 +565,7 @@ def distancia_izquierda():
 
 
 def distancia_derecha():
+
     return distancia_zona(
         90,
         18,
@@ -534,6 +574,7 @@ def distancia_derecha():
 
 
 def distancia_frente_izquierda():
+
     return distancia_zona(
         -45,
         20,
@@ -542,6 +583,7 @@ def distancia_frente_izquierda():
 
 
 def distancia_frente_derecha():
+
     return distancia_zona(
         45,
         20,
@@ -554,6 +596,7 @@ def distancia_frente_derecha():
 # ============================================================
 
 def detectar_color(frame):
+
     hsv = cv2.cvtColor(
         frame,
         cv2.COLOR_BGR2HSV
@@ -629,6 +672,7 @@ def detectar_color(frame):
     area_verde = 0
 
     if contornos_rojos:
+
         area_roja = cv2.contourArea(
             max(
                 contornos_rojos,
@@ -637,6 +681,7 @@ def detectar_color(frame):
         )
 
     if contornos_verdes:
+
         area_verde = cv2.contourArea(
             max(
                 contornos_verdes,
@@ -648,12 +693,14 @@ def detectar_color(frame):
         area_roja > 800
         and area_roja > area_verde
     ):
+
         return "ROJO"
 
     if (
         area_verde > 800
         and area_verde > area_roja
     ):
+
         return "VERDE"
 
     return None
@@ -674,11 +721,16 @@ TOLERANCIA_RUTA_PARED = 90
 KP_RUTA_PARED = 0.022
 MAX_CORRECCION_RUTA = 12
 
+# Si quieres 5 cm:
+# DISTANCIA_OBJETIVO_PARED = 50
+
 KP = 0.035
+
 MAX_CORRECCION = 22
 
 
 def controlar_paredes():
+
     global pared_preferida_ruta
 
     izquierda = distancia_izquierda()
@@ -687,6 +739,10 @@ def controlar_paredes():
     # --------------------------------------------------------
     # SEGUIMIENTO SUAVE DE LA PARED DE LA RUTA
     # --------------------------------------------------------
+    # Despues de escoger una ruta, priorizamos la pared del lado
+    # elegido para evitar que el robot se vaya demasiado hacia
+    # el centro de la pista. Solo corregimos cuando sale de una
+    # pequena zona de tolerancia para evitar zig-zag.
     pared_ruta = None
 
     if pared_preferida_ruta == "IZQUIERDA":
@@ -695,9 +751,11 @@ def controlar_paredes():
         pared_ruta = derecha
 
     if pared_ruta is not None:
+
         error = pared_ruta - DISTANCIA_RUTA_PARED
 
         if abs(error) > TOLERANCIA_RUTA_PARED:
+
             correccion = error * KP_RUTA_PARED
             correccion = max(
                 -MAX_CORRECCION_RUTA,
@@ -721,6 +779,7 @@ def controlar_paredes():
         izquierda is None
         and derecha is None
     ):
+
         establecer_objetivo_servo(
             SERVO_CENTRO
         )
@@ -735,6 +794,7 @@ def controlar_paredes():
         izquierda is not None
         and derecha is None
     ):
+
         error = (
             izquierda
             - DISTANCIA_OBJETIVO_PARED
@@ -767,6 +827,7 @@ def controlar_paredes():
         derecha is not None
         and izquierda is None
     ):
+
         error = (
             derecha
             - DISTANCIA_OBJETIVO_PARED
@@ -823,17 +884,23 @@ def controlar_paredes():
 # ============================================================
 
 DISTANCIA_CRITICA = 100
+
+# 4 pies = aproximadamente 1219 mm
+# Se inicia el giro con bastante anticipacion para evitar acercarse demasiado.
 DISTANCIA_GIRO = 800
 
 
 def reversa_emergencia():
+
     print()
     print(
         "!!!!!!!!!!!!!!!!!!!!!!!!"
     )
+
     print(
         " PELIGRO - REVERSA"
     )
+
     print(
         "!!!!!!!!!!!!!!!!!!!!!!!!"
     )
@@ -862,11 +929,12 @@ def reversa_emergencia():
         - inicio_servo
         < 0.25
     ):
+
         actualizar_servo()
         time.sleep(0.01)
 
     # --------------------------------------------------------
-    # AHORA SÍ: REVERSA REAL
+    # AHORA SI: REVERSA REAL
     # --------------------------------------------------------
 
     print(
@@ -882,12 +950,13 @@ def reversa_emergencia():
         - inicio
         < 0.60
     ):
+
         actualizar_servo()
 
         time.sleep(0.01)
 
     # --------------------------------------------------------
-    # PARAR DESPUÉS DE REVERSA
+    # PARAR DESPUES DE REVERSA
     # --------------------------------------------------------
 
     motor_parar()
@@ -903,7 +972,7 @@ def reversa_emergencia():
     derecha = distancia_derecha()
 
     print(
-        "Después de reversa:"
+        "Despues de reversa:"
     )
 
     print(
@@ -916,14 +985,16 @@ def reversa_emergencia():
     )
 
     # --------------------------------------------------------
-    # ACOMODARSE HACIA EL LADO MÁS LIBRE
+    # ACOMODARSE HACIA EL LADO MAS LIBRE
     # --------------------------------------------------------
 
     if (
         izquierda is not None
         and derecha is not None
     ):
+
         if izquierda < derecha:
+
             print(
                 "Acomodando hacia DERECHA"
             )
@@ -941,10 +1012,12 @@ def reversa_emergencia():
                 - inicio
                 < 0.40
             ):
+
                 actualizar_servo()
                 time.sleep(0.01)
 
         elif derecha < izquierda:
+
             print(
                 "Acomodando hacia IZQUIERDA"
             )
@@ -962,6 +1035,7 @@ def reversa_emergencia():
                 - inicio
                 < 0.40
             ):
+
                 actualizar_servo()
                 time.sleep(0.01)
 
@@ -980,6 +1054,7 @@ def reversa_emergencia():
         - inicio
         < 0.35
     ):
+
         actualizar_servo()
         time.sleep(0.01)
 
@@ -997,6 +1072,7 @@ def reversa_emergencia():
 # ============================================================
 
 def evitar_obstaculo(color):
+
     print(
         "OBSTACULO"
     )
@@ -1010,23 +1086,28 @@ def evitar_obstaculo(color):
 
     # ROJO -> IZQUIERDA
     if color == "ROJO":
+
         establecer_objetivo_servo(
             SERVO_IZQUIERDA
         )
 
     # VERDE -> DERECHA
     elif color == "VERDE":
+
         establecer_objetivo_servo(
             SERVO_DERECHA
         )
 
     else:
+
         controlar_paredes()
+
         return
 
     inicio = time.monotonic()
 
     while True:
+
         actualizar_servo()
 
         frente = distancia_frente()
@@ -1055,6 +1136,7 @@ def evitar_obstaculo(color):
 # GIRO INTELIGENTE HACIA LA RUTA ABIERTA
 # ============================================================
 
+# Estado del giro.
 modo_giro = False
 direccion_giro = None
 
@@ -1065,12 +1147,22 @@ MAX_GIROS = 12
 giros_realizados = 0
 limite_giros_alcanzado = False
 
+
+# Lado de la pared que queremos mantener cerca durante la ruta.
 pared_preferida_ruta = None
+
+# Mientras gira, si el lado elegido se vuelve peligroso,
+# puede cambiar inmediatamente al lado contrario.
 DISTANCIA_PELIGRO_LATERAL = 450
+
+# Se considera que el robot ya salio de la esquina cuando
+# hay paredes a ambos lados y suficiente espacio delante.
 DISTANCIA_CENTRAR = 1000
 
 
 def distancia_para_planificar(valor):
+    # None significa que el LiDAR no encontro una pared en esa zona.
+    # Para elegir ruta, se interpreta como espacio muy abierto.
     if valor is None:
         return 5000
 
@@ -1078,16 +1170,24 @@ def distancia_para_planificar(valor):
 
 
 def medir_sector(angulo, ancho=10, distancia_max=4500):
+    """Lectura robusta de un sector concreto del LiDAR."""
     return distancia_zona(angulo, ancho, distancia_max)
 
 
 def valor_planificacion(valor):
+    # Sin retorno: no hay pared confirmada. Se considera abierto,
+    # pero no infinito para que el analisis siga siendo estable.
     if valor is None:
         return 3500.0
     return float(valor)
 
 
 def analizar_ruta():
+    """Analiza varias zonas antes de escoger el giro.
+
+    No decide solo por IZQ vs DER. Mira tambien la zona diagonal
+    y la zona cercana al frente de cada lado.
+    """
     datos = {
         "izq_lateral": medir_sector(-90, 18),
         "der_lateral": medir_sector(90, 18),
@@ -1098,6 +1198,9 @@ def analizar_ruta():
         "frente": medir_sector(0, 25, 5000),
     }
 
+    # El sector cercano al frente pesa mas porque indica si el robot
+    # realmente puede entrar al giro. La diagonal confirma el camino
+    # y el lateral ayuda a saber cuanto espacio hay despues de entrar.
     izq = (
         valor_planificacion(datos["izq_lateral"]) * 0.30
         + valor_planificacion(datos["izq_diag"]) * 0.35
@@ -1110,6 +1213,7 @@ def analizar_ruta():
         + valor_planificacion(datos["der_cerca"]) * 0.35
     )
 
+    # Penalizacion fuerte si una zona de entrada esta muy cerrada.
     if datos["izq_cerca"] is not None and datos["izq_cerca"] < 600:
         izq -= (600 - datos["izq_cerca"]) * 1.8
 
@@ -1140,6 +1244,7 @@ def elegir_lado_mas_libre(izquierda, derecha):
 
 
 def detener_por_limite_giros():
+    """Detiene el robot al completar el giro numero 12."""
     global modo_giro
     global limite_giros_alcanzado
 
@@ -1178,6 +1283,10 @@ def girar_hacia_lado_abierto():
     # SI YA ESTAMOS GIRANDO
     # --------------------------------------------------------
     if modo_giro:
+
+        # No cambiamos de lado por una sola lectura rara.
+        # Solo cambiamos si el lado elegido permanece cerrado
+        # y el contrario esta claramente mas libre.
         lado = izquierda if direccion_giro == "IZQUIERDA" else derecha
         contrario = derecha if direccion_giro == "IZQUIERDA" else izquierda
 
@@ -1198,6 +1307,8 @@ def girar_hacia_lado_abierto():
             else:
                 establecer_objetivo_servo(SERVO_IZQUIERDA)
 
+        # Salida de esquina: necesitamos espacio frontal y una lectura
+        # de ambos lados para confirmar que estamos de nuevo en pasillo.
         if (
             izquierda is not None
             and derecha is not None
@@ -1211,10 +1322,14 @@ def girar_hacia_lado_abierto():
             if limite_giros_alcanzado:
                 detener_por_limite_giros()
                 return
-
+            # Conservamos el lado elegido para seguir esa pared
+            # suavemente durante el avance por el pasillo.
             motor_avanzar(82)
             return
 
+        # Durante el giro bajamos un poco la velocidad cuando el frente
+        # todavia esta relativamente cerrado. Cuando se abre, subimos
+        # progresivamente sin pegar un aceleron.
         if frente is not None and frente < 650:
             motor_avanzar(70)
         elif frente is not None and frente < 950:
@@ -1234,6 +1349,8 @@ def girar_hacia_lado_abierto():
 
     direccion, score_izq, score_der, datos = analizar_ruta()
 
+    # Histeresis: si los resultados estan muy parecidos, preferimos
+    # la direccion que tenga la entrada cercana mas despejada.
     if abs(score_izq - score_der) < 180:
         cerca_izq = valor_planificacion(datos["izq_cerca"])
         cerca_der = valor_planificacion(datos["der_cerca"])
@@ -1246,6 +1363,7 @@ def girar_hacia_lado_abierto():
     # --------------------------------------------------------
     # CONTAR EL NUEVO GIRO
     # --------------------------------------------------------
+    # Se cuenta una sola vez al iniciar un giro nuevo.
     giros_realizados += 1
     print(">>> GIRO #", giros_realizados, "DE", MAX_GIROS, "->", direccion)
 
@@ -1253,7 +1371,9 @@ def girar_hacia_lado_abierto():
         limite_giros_alcanzado = True
 
     modo_giro = True
+
     direccion_giro = direccion
+
     pared_preferida_ruta = direccion
 
     if direccion == "IZQUIERDA":
@@ -1265,10 +1385,11 @@ def girar_hacia_lado_abierto():
         print(">>> ENTRADA:", datos["der_cerca"], "DIAGONAL:", datos["der_diag"])
         establecer_objetivo_servo(SERVO_IZQUIERDA)
 
+    # Arranque de giro controlado; el servo comienza su rampa rapida
+    # en actualizar_servo() y el motor no pega un cambio brusco.
     motor_avanzar(72)
 
 
-# ===========================================================
 # RADAR 360°
 # ============================================================
 
@@ -1285,6 +1406,7 @@ radar = np.zeros(
 
 
 def dibujar_radar():
+
     global radar
 
     radar[:] = 0
@@ -1302,6 +1424,7 @@ def dibujar_radar():
         3,
         4
     ]:
+
         radio = int(
             metros * 100
         )
@@ -1343,7 +1466,7 @@ def dibujar_radar():
             centro,
             RADAR_TAMANO
         ),
-        (45, 45, 45),
+        (40, 40, 40),
         1
     )
 
@@ -1357,6 +1480,553 @@ def dibujar_radar():
             RADAR_TAMANO,
             centro
         ),
-        (45, 45, 45),
+        (40, 40, 40),
         1
+    )
+
+    with lock_lidar:
+
+        copia = list(
+            puntos_lidar
+        )
+
+    ahora = time.time()
+
+    for (
+        angulo,
+        distancia,
+        intensidad,
+        tiempo_punto
+    ) in copia:
+
+        if (
+            ahora
+            - tiempo_punto
+            > 0.65
+        ):
+            continue
+
+        metros = (
+            distancia / 1000.0
+        )
+
+        if metros > 4:
+            continue
+
+        angulo_pantalla = (
+            lidar_a_pantalla(
+                angulo
+            )
+        )
+
+        rad = math.radians(
+            angulo_pantalla
+        )
+
+        x = int(
+            centro
+            + math.sin(rad)
+            * metros
+            * 100
+        )
+
+        y = int(
+            centro
+            - math.cos(rad)
+            * metros
+            * 100
+        )
+
+        if (
+            0 <= x < RADAR_TAMANO
+            and
+            0 <= y < RADAR_TAMANO
+        ):
+
+            cv2.circle(
+                radar,
+                (
+                    x,
+                    y
+                ),
+                2,
+                (255, 255, 255),
+                -1
+            )
+
+    # ROBOT
+    cv2.circle(
+        radar,
+        (
+            centro,
+            centro
+        ),
+        8,
+        (255, 255, 255),
+        -1
+    )
+
+    cv2.putText(
+        radar,
+        "FRENTE",
+        (
+            centro - 35,
+            25
+        ),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.5,
+        (255, 255, 255),
+        1
+    )
+
+    cv2.putText(
+        radar,
+        "ATRAS",
+        (
+            centro - 25,
+            RADAR_TAMANO - 10
+        ),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.5,
+        (255, 255, 255),
+        1
+    )
+
+    cv2.putText(
+        radar,
+        "IZQ",
+        (
+            10,
+            centro
+        ),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.5,
+        (255, 255, 255),
+        1
+    )
+
+    cv2.putText(
+        radar,
+        "DER",
+        (
+            RADAR_TAMANO - 40,
+            centro
+        ),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.5,
+        (255, 255, 255),
+        1
+    )
+
+
+# ============================================================
+# HILO LIDAR
+# ============================================================
+
+if lidar is not None:
+
+    hilo_lidar = threading.Thread(
+        target=leer_lidar,
+        daemon=True
+    )
+
+    hilo_lidar.start()
+
+
+# ============================================================
+# CAMARA
+# ============================================================
+
+picam2 = Picamera2()
+
+config = (
+    picam2.create_preview_configuration(
+        main={
+            "size": (640, 480),
+            "format": "RGB888"
+        }
+    )
+)
+
+picam2.configure(
+    config
+)
+
+picam2.start()
+
+time.sleep(2)
+
+FRANJA_Y_INICIO = 180
+FRANJA_Y_FINAL = 310
+
+
+# ============================================================
+# ESPERAR BOTON
+# ============================================================
+
+print()
+print(
+    "======================================"
+)
+
+print(
+    " ROBOT AUTONOMO"
+)
+
+print(
+    " SERVO 180° SUAVE"
+)
+
+print(
+    " MOTOR 90%"
+)
+
+print(
+    "======================================"
+)
+
+print(
+    "Servo apagado hasta pulsar boton."
+)
+
+print()
+
+motor_parar()
+
+# PWM APAGADO
+desactivar_servo()
+
+GPIO.output(LED_VERDE, GPIO.HIGH)
+
+
+while GPIO.input(BOTON) == GPIO.HIGH:
+
+    frame = picam2.capture_array()
+
+    frame = cv2.rotate(
+        frame,
+        cv2.ROTATE_180
+    )
+
+    franja = frame[
+        FRANJA_Y_INICIO:
+        FRANJA_Y_FINAL,
+        0:640
+    ]
+
+    color = detectar_color(
+        franja
+    )
+
+    cv2.imshow(
+        "CAMARA",
+        cv2.cvtColor(
+            franja,
+            cv2.COLOR_RGB2BGR
+        )
+    )
+
+    dibujar_radar()
+
+    cv2.imshow(
+        "LIDAR 360",
+        radar
+    )
+
+    if (
+        cv2.waitKey(1)
+        & 0xFF
+        == 27
+    ):
+
+        picam2.stop()
+
+        servo_pwm.stop()
+
+        motor_pwm.stop()
+
+        GPIO.cleanup()
+
+        cv2.destroyAllWindows()
+
+        raise SystemExit
+
+    time.sleep(0.01)
+
+
+# ============================================================
+# ARRANQUE
+# ============================================================
+
+print()
+print(
+    "BOTON PRESIONADO"
+)
+
+print(
+    "INICIANDO ROBOT..."
+)
+
+activar_servo()
+
+servo_angulo_actual = SERVO_CENTRO
+servo_objetivo = SERVO_CENTRO
+
+time.sleep(0.20)
+
+motor_avanzar(
+    VELOCIDAD
+)
+
+
+# ============================================================
+# LOOP PRINCIPAL
+# ============================================================
+
+ultimo_mensaje = 0
+
+try:
+
+    while True:
+
+        # ----------------------------------------------------
+        # CAMARA
+        # ----------------------------------------------------
+
+        frame = picam2.capture_array()
+
+        frame = cv2.rotate(
+            frame,
+            cv2.ROTATE_180
+        )
+
+        franja = frame[
+            FRANJA_Y_INICIO:
+            FRANJA_Y_FINAL,
+            0:640
+        ]
+
+        color = detectar_color(
+            franja
+        )
+
+        # ----------------------------------------------------
+        # LIDAR
+        # ----------------------------------------------------
+
+        frente = distancia_frente()
+
+        izquierda = distancia_izquierda()
+
+        derecha = distancia_derecha()
+
+        # ----------------------------------------------------
+        # INFORMACION
+        # ----------------------------------------------------
+
+        ahora = time.time()
+
+        if (
+            ahora
+            - ultimo_mensaje
+            > 0.3
+        ):
+
+            print(
+                "F:",
+                frente,
+                "IZQ:",
+                izquierda,
+                "DER:",
+                derecha,
+                "COLOR:",
+                "GIROS:",
+                giros_realizados,
+                "/",
+                MAX_GIROS,
+                color,
+                "SERVO:",
+                round(
+                    servo_angulo_actual,
+                    1
+                )
+            )
+
+            ultimo_mensaje = ahora
+
+        # ====================================================
+        # PELIGRO INMEDIATO
+        # ====================================================
+
+        if (
+            frente is not None
+            and frente <= DISTANCIA_CRITICA
+        ):
+
+            reversa_emergencia()
+
+            motor_avanzar(
+                VELOCIDAD
+            )
+
+        # ====================================================
+        # OBSTACULO / PRECAUCION
+        # ====================================================
+
+        elif (
+            modo_giro
+            or (
+                frente is not None
+                and frente <= DISTANCIA_GIRO
+            )
+        ):
+
+            girar_hacia_lado_abierto()
+
+            if limite_giros_alcanzado and not modo_giro:
+                motor_parar()
+                break
+
+        # ====================================================
+        # AVANCE NORMAL
+        # ====================================================
+
+        else:
+
+            motor_avanzar(
+                VELOCIDAD
+            )
+
+            controlar_paredes()
+
+        # ----------------------------------------------------
+        # ACTUALIZAR SERVO DESPUES DE DECIDIR LA DIRECCION
+        # ----------------------------------------------------
+        # Primero se decide el nuevo objetivo y luego se mueve
+        # el servo. Asi no ejecuta un paso del objetivo anterior
+        # que podia causar el mini giro contrario.
+
+        actualizar_servo()
+
+        # ----------------------------------------------------
+        # MOSTRAR CAMARA
+        # ----------------------------------------------------
+
+        camara_bgr = cv2.cvtColor(
+            franja,
+            cv2.COLOR_RGB2BGR
+        )
+
+        if color == "ROJO":
+
+            cv2.putText(
+                camara_bgr,
+                "ROJO",
+                (
+                    20,
+                    40
+                ),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                1,
+                (0, 0, 255),
+                2
+            )
+
+        elif color == "VERDE":
+
+            cv2.putText(
+                camara_bgr,
+                "VERDE",
+                (
+                    20,
+                    40
+                ),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                1,
+                (0, 255, 0),
+                2
+            )
+
+        cv2.imshow(
+            "CAMARA",
+            camara_bgr
+        )
+
+        # ----------------------------------------------------
+        # RADAR
+        # ----------------------------------------------------
+
+        dibujar_radar()
+
+        cv2.imshow(
+            "LIDAR 360",
+            radar
+        )
+
+        # ----------------------------------------------------
+        # ESC
+        # ----------------------------------------------------
+
+        tecla = (
+            cv2.waitKey(1)
+            & 0xFF
+        )
+
+        if tecla == 27:
+            break
+
+        time.sleep(0.005)
+
+
+# ============================================================
+# APAGADO
+# ============================================================
+
+except KeyboardInterrupt:
+
+    print(
+        "Programa detenido."
+    )
+
+
+finally:
+
+    print(
+        "Apagando robot..."
+    )
+
+    motor_parar()
+
+    # Centrar objetivo
+    establecer_objetivo_servo(
+        SERVO_CENTRO
+    )
+
+    # Dar unos instantes para centrar
+    inicio = time.monotonic()
+
+    while (
+        time.monotonic()
+        - inicio
+        < 0.5
+    ):
+
+        actualizar_servo()
+        time.sleep(0.01)
+
+    # Cortar PWM
+    desactivar_servo()
+
+    servo_pwm.stop()
+
+    motor_pwm.stop()
+
+    picam2.stop()
+
+    GPIO.cleanup()
+
+    cv2.destroyAllWindows()
+
+    print(
+        "Robot apagado."
     )
