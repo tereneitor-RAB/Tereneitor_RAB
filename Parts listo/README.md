@@ -22,7 +22,7 @@
 | 16 | publisher              |        1 | to start programming                                          |
 | 17 | MPU 6050               |        1 | Monitor the turns                                             |
 
-## Bill of Materials (BOM)
+## price of materials purchased
 
 | # | Component | Quantity | Estimated Unit Price (USD) |
 |---|-----------|----------|----------------------------|
