@@ -45,7 +45,5 @@
 | 17 | MPU6050 | 1 | $4.00 |
 | 18 | Blue PLA Filament, 1 kg | 1 | $16.90 |
 | 19 | Red PLA Filament, 1 kg | 1 | $16.90 |
-| | **Estimated Total Cost** | | | $319.55 | 
-
 > **Estimated total project cost: $319.55 USD**
 
