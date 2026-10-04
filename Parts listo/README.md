@@ -31,7 +31,7 @@
 | 3 | LDROBOT D500 LiDAR | 1 | $69.00 
 | 4 | L298N Motor Driver | 1 | $5.00 |
 | 5 | Servo Motor | 1 | $8.00 |
-| 6 | DC Motors | 1 set | $20.00 |
+| 6 | DC Motors | 1 set | $15.00 |
 | 7 | Wheels | 4 | $12.00 |
 | 8 | Robot Chassis | 1 | $25.00 |
 | 9 | Battery | 1 | $30.00 |
