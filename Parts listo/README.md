@@ -22,7 +22,7 @@
 | 16 | publisher              |        1 | to start programming                                          |
 | 17 | MPU 6050               |        1 | Monitor the turns                                             |
 
-## price of materials purchased
+## 💲 price of materials purchased
 
 | # | Component | Quantity | Estimated Unit Price (USD) |
 |---|-----------|----------|----------------------------|
