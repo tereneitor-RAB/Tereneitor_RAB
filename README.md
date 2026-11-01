@@ -22,20 +22,48 @@
 
 ------------------------------------------------------------
 
-# WHAT IS THIS CATEGORY ABOUT❓
-<img width="2500" height="1427" alt="image" src="https://github.com/user-attachments/assets/08d068fb-b5f2-45bb-9f0e-70b7402af340" />
+# WHAT IS THIS CATEGORY ABOUT? ❓
 
+<table>
+  <tr>
+    <td width="65%" valign="top">
 
-- This is the track for this category in 2026, on this track there are 2 modes, free mode and obstacle mode. In free mode only the robot will have to make 3 laps and stop after completing the 3 laps. In obstacle mode the robot has to make 3 laps while avoiding the obstacles and after making 3 laps it will have to parallel park.
+   <h3>🏁 Competition Overview</h3>
 
-- The obstacles are placed by the Judge and he is the one who assigns the parking spot. Both the obstacles and the parking spot are at the discretion of the Judge, so it is completely random.
+   The WRO Future Engineers category challenges teams to develop autonomous self-driving robots capable of navigating a competition track. In 2026, the competition consists of two driving modes:
 
-- If the robot hits a wall the Judge stops counting the time and when he indicates the robot can be picked up.
+   <ul>
+        <li><b>Free Driving Mode:</b> The robot must autonomously complete three laps around the track and stop once all laps are finished.</li>
+        <li><b>Obstacle Challenge Mode:</b> The robot must complete three laps while avoiding obstacles. After completing the laps, it must perform a parallel parking maneuver in the designated area.</li>
+      </ul>
 
-- The walls in the center of the court can vary in size.
+   <h3>🚧 Obstacles and Parking Area</h3>
 
-- This category may be similar to autonomous robots that are sent into space to explore planets, since they must avoid any object that gets in their way and also explore and send information about the planet.
-WRO provides us with the official rules for this category of Future Engineers.
+   <ul>
+        <li>The Judge is responsible for placing the obstacles and assigning the parking area.</li>
+        <li>The positions of the obstacles and parking area are determined by the Judge, making each challenge unpredictable.</li>
+        <li>The walls located in the center of the track may vary in size.</li>
+      </ul>
 
-- [Official rules](https://wro-association.org/wp-content/uploads/WRO-2026-Future-Engineers-Self-Driving-Cars-General-Rules.pdf)
+   <h3>⚠️ Competition Rules</h3>
+
+   If the robot hits a wall, the Judge stops the timer. The robot may only be picked up when the Judge gives permission.
+
+   <h3>🚀 Real-World Applications</h3>
+
+   This category is closely related to autonomous exploration vehicles, such as robotic rovers sent to explore other planets. These robots must navigate unfamiliar environments, detect and avoid obstacles, make independent decisions, and collect information about their surroundings.
+
+   <h3>📘 Official WRO Rules</h3>
+
+   WRO provides the official regulations and guidelines for the Future Engineers category.
+
+   <a href="https://wro-association.org/wp-content/uploads/WRO-2026-Future-Engineers-Self-Driving-Cars-General-Rules.pdf"><b>Read the Official WRO 2026 Rules (PDF)</b></a>
+
+  </td>
+    <td width="35%" valign="top" align="center">
+      <img width="100%" alt="WRO Future Engineers 2026 Competition Track" src="https://github.com/user-attachments/assets/08d068fb-b5f2-45bb-9f0e-70b7402af340" />
+    </td>
+  </tr>
+</table>
+
 -------------------------------------------------------------------------
