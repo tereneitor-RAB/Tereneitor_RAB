@@ -62,13 +62,14 @@
 
   <td width="35%" valign="top" align="center">
 
+  <h4>Obstacle Challenge Mode</h4>
    <img width="100%" alt="WRO Future Engineers Competition Track" src="https://github.com/user-attachments/assets/08d068fb-b5f2-45bb-9f0e-70b7402af340" />
 
    <h4>Free Driving Mode</h4>
-      <img width="100%" alt="Free Driving Track" src="[images/wro_track_free_mode_transparent.png](https://github.com/user-attachments/assets/4774b4a3-0c0c-4a07-b68f-001ee177829d)" />
+      <img width="100%" alt="Free Driving Track" src="https://github.com/user-attachments/assets/4774b4a3-0c0c-4a07-b68f-001ee177829d" />
 
    <h4>Obstacle Challenge Mode</h4>
-      <img width="100%" alt="Obstacle Challenge Track" src="[images/wro_track_obstacle_mode_transparent.png](https://github.com/user-attachments/assets/249f7947-c389-4506-bc65-e06eaf387fa0)" />
+      <img width="100%" alt="Obstacle Challenge Track" src="https://github.com/user-attachments/assets/249f7947-c389-4506-bc65-e06eaf387fa0" />
 
    </td>
   </tr>
