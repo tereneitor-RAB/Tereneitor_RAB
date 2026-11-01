@@ -6,9 +6,26 @@
 
   <img width="500" height="375" alt="WhatsApp Image 2026-04-30 at 2 58 54 PM" src="https://github.com/user-attachments/assets/fd449b55-e038-4593-a76d-8b9697f3a731" />
 
-## Robot image
+## photo of the robot
 
-<img width="500" height="333" alt="Robot image" src="https://github.com/user-attachments/assets/b2864fe8-c605-4c78-8ea9-276670d80be7" />
+<table>
+  <tr>
+    <td width="45%" align="center" valign="middle">
+      <img
+        width="100%"
+        alt="Our Autonomous Robot"
+        src="https://github.com/user-attachments/assets/b2864fe8-c605-4c78-8ea9-276670d80be7"
+      />
+    </td>
+
+   <td width="55%" valign="top">
+<h3>Robot Description</h3>
+
+- 
+
+   </td>
+  </tr>
+</table>
 
 ------------------------------------------------------------
 
