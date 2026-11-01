@@ -12,13 +12,13 @@
 
 ------------------------------------------------------------
 
-| project content step by step |
+| project content step by step | what is it composed of |
 | -- | -- |
-|[mount start](https://github.com/users/tereneitor-RAB/projects/1)|
-|[Regional March 28](https://github.com/users/tereneitor-RAB/projects/5)|
-|[regional April 18](https://github.com/users/tereneitor-RAB/projects/7)|
-|[preparation for the national](https://github.com/users/tereneitor-RAB/projects/8)|
-|[preparation for the California Open Championship](https://github.com/users/tereneitor-RAB/projects/10)|
+|[mount start](https://github.com/users/tereneitor-RAB/projects/1)| This first project is where we started to gather ideas for the robot's mount and show the step-by-step process of starting the mount.| 
+|[Regional March 28](https://github.com/users/tereneitor-RAB/projects/5)|In this second project we show the problems and solutions we had in the regional competition on March 28th and ideas at the end to improve the robot.|
+|[regional April 18](https://github.com/users/tereneitor-RAB/projects/7)|In this third project we show the problems and solutions we had in the regional meeting on April 18th and ideas at the end to improve the robot.|
+|[preparation for the national](https://github.com/users/tereneitor-RAB/projects/8)|In this fourth project we talked about ideas and step-by-step modifications for preparing our robot for the national competition.|
+|[preparation for the California Open Championship](https://github.com/users/tereneitor-RAB/projects/10)|In this fifth project we talked about ideas and step-by-step modifications to prepare our robot for the California Open Champion.|
 
 ------------------------------------------------------------
 
