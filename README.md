@@ -21,7 +21,6 @@
 |[preparation for the California Open Championship](https://github.com/users/tereneitor-RAB/projects/10)|In this fifth project we talked about ideas and step-by-step modifications to prepare our robot for the California Open Champion.|
 
 ------------------------------------------------------------
-
 # WHAT IS THIS CATEGORY ABOUT? ❓
 
 <table>
@@ -59,11 +58,23 @@
 
    <a href="https://wro-association.org/wp-content/uploads/WRO-2026-Future-Engineers-Self-Driving-Cars-General-Rules.pdf"><b>Read the Official WRO 2026 Rules (PDF)</b></a>
 
+   </td>
+
+  <td width="35%" valign="top" align="center">
+
+   <img width="100%" alt="WRO Future Engineers Track" src="https://github.com/user-attachments/assets/08d068fb-b5f2-45bb-9f0e-70b7402af340" />
+
+   <br>
+
+   <h4>Free Driving Mode</h4>
+      <img width="100%" alt="Free Driving Track" src="PEGA_AQUI_EL_ENLACE_DE_LA_PRIMERA_IMAGEN" />
+
+   <br>
+
+   <h4>Obstacle Challenge Mode</h4>
+      <img width="100%" alt="Obstacle Challenge Track" src="PEGA_AQUI_EL_ENLACE_DE_LA_SEGUNDA_IMAGEN" />
+
   </td>
-    <td width="35%" valign="top" align="center">
-      <img width="100%" alt="WRO Future Engineers 2026 Competition Track" src="https://github.com/user-attachments/assets/08d068fb-b5f2-45bb-9f0e-70b7402af340" />
-    </td>
   </tr>
 </table>
-
 -------------------------------------------------------------------------
