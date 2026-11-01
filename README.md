@@ -8,7 +8,7 @@
 ## Robot image
 <img width="1600" height="1066" alt="WhatsApp Image 2026-09-17 at 12 14 56 AM" src="https://github.com/user-attachments/assets/b2864fe8-c605-4c78-8ea9-276670d80be7" />
 
-| project  |
+| project content step by step |
 | -- |
 |[mount start](https://github.com/users/tereneitor-RAB/projects/1)|
 |[Regional March 28](https://github.com/users/tereneitor-RAB/projects/5)|
