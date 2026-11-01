@@ -21,12 +21,15 @@
 |[preparation for the California Open Championship](https://github.com/users/tereneitor-RAB/projects/10)|In this fifth project we talked about ideas and step-by-step modifications to prepare our robot for the California Open Champion.|
 
 ------------------------------------------------------------
-# WHAT IS THIS CATEGORY ABOUT? ❓
-
 <table>
+<tr>
+  <td colspan="2" align="center">
+    <h1>WHAT IS THIS CATEGORY ABOUT? ❓</h1>
+  </td>
+</tr>
+
   <tr>
     <td width="65%" valign="top">
-
    <h3>🏁 Competition Overview</h3>
 
    The WRO Future Engineers category challenges teams to develop autonomous self-driving robots capable of navigating a competition track. In 2026, the competition consists of two driving modes:
