@@ -21,7 +21,7 @@
    <td width="55%" valign="top">
 <h3>Robot Description</h3>
 
-- 
+- Our robot is a self-driving autonomous vehicle, designed and developed for the WRO Future Engineers competition. It uses a Raspberry Pi 4 Model B as its main processing unit, along with a camera and a LiDAR sensor to detect its surroundings, measure distances, and identify obstacles. By combining the data from its sensors and its autonomous navigation system, the robot is able to make decisions, follow the track, avoid obstacles, and perform precise maneuvers without human intervention. Our goal is to build a reliable and efficient robot, capable of adapting to different track conditions and successfully completing the competition's challenges.
 
    </td>
   </tr>
