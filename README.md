@@ -6,9 +6,12 @@
 
   <img width="500" height="375" alt="WhatsApp Image 2026-04-30 at 2 58 54 PM" src="https://github.com/user-attachments/assets/fd449b55-e038-4593-a76d-8b9697f3a731" />
 
-## photo of the robot
-
 <table>
+<tr>
+  <td colspan="2" align="center">
+    <h1>Photo of the robot</h1>
+  </td>
+</tr>
   <tr>
     <td width="45%" align="center" valign="middle">
       <img
