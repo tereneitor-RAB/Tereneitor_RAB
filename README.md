@@ -91,6 +91,8 @@
 
 -------------------------------------------------------------------------
 
+<h2 align="center">PROJECT CONTENT</h2>
+
 | project content step by step | what is it composed of |
 | -- | -- |
 |[mount start](https://github.com/users/tereneitor-RAB/projects/1)| This first project is where we started to gather ideas for the robot's mount and show the step-by-step process of starting the mount.| 
