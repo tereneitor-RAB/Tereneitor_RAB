@@ -1,10 +1,25 @@
-# Tereneitor_RAB | Future Engineers | Puerto Rico🚀
+ <h1 align="center"> Tereneitor_RAB | Future Engineers | Puerto Rico🚀</h1>
+<br>
+<table>
+  <tr>
+    <td width="50%" align="center" valign="top">
+      <img
+        width="500"
+        alt="Team Members"
+        src="https://github.com/user-attachments/assets/fd449b55-e038-4593-a76d-8b9697f3a731"
+      />
+    </td>
+    <td width="50%" valign="top">
+      <h3>Team Members</h3>
+      <ul>
+        <li><b>Daniel R. Roman</b> - 19 years old</li>
+        <li><b>Luis Rios Santos</b> - 19 years old</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
-## Competitors of this team
-- Daniel R. Roman - 19 years old
-- Luis Rios Santos - 19 years old
-
-  <img width="500" height="375" alt="WhatsApp Image 2026-04-30 at 2 58 54 PM" src="https://github.com/user-attachments/assets/fd449b55-e038-4593-a76d-8b9697f3a731" />
+<br>
 
 <table>
 <tr>
@@ -30,7 +45,7 @@
   </tr>
 </table>
 
-------------------------------------------------------------
+<br>
 
 <table>
 <tr>
@@ -89,7 +104,7 @@
   </tr>
 </table>
 
--------------------------------------------------------------------------
+<br>
 
 <h2 align="center">PROJECT CONTENT</h2>
 
