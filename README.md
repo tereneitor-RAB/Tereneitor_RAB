@@ -235,284 +235,6 @@
 
 </div>
 
-</div>
-
-# 1. Software Architecture and Obstacle Strategy
-
-## 1.1 Overview
-
-The robot is controlled by a single Python 3 program running on a **Raspberry Pi 4 Model B**. It combines four sensors:
-
-- **LiDAR (LDROBOT D500):** Measures the distance to walls (front, left, right, and diagonal directions).
-- **Camera (Raspberry Pi Camera V2):** Detects the colors of the pillars (red or green).
-- **Gyroscope (MPU6050):** Measures how many degrees the robot has rotated to count the three laps.
-- **Start Button:** The only way to start the competition run.
-
-The robot has one traction motor (controlled by an L298N driver) and one steering servo, meeting the vehicle configuration requirement of one driven axle and one steering actuator.
-
-## 1.2 Program Structure
-
-The program consists of a single file with clearly separated sections. The LiDAR runs in its own thread, allowing distance measurements to remain updated while the main control loop makes decisions.
-
-| Block | Main Functions | Description |
-|---|---|---|
-| Steering Servo | `activar_servo`, `establecer_objetivo_servo`, `actualizar_servo` | Smoothly moves the servo toward a target angle, using larger steps when far from the target and smaller steps when approaching it, preventing sudden movements. |
-| Traction Motor | `motor_avanzar`, `motor_retroceder`, `motor_parar` | Controls forward movement, reverse movement, and stopping through PWM speed control. |
-| LiDAR Thread | `leer_lidar`, `crc8` | Reads 47-byte packets, verifies the CRC-8, and stores only points from the last 0.25 seconds. |
-| Distance Zones | `distancia_zona`, `distancia_frente`, `distancia_izquierda`, `distancia_derecha` | Calculates a reliable distance measurement for a specific angular sector (for example, the front sector ±25 degrees). |
-| Color Detection | `detectar_color` | Detects red or green pillars in the camera image using the HSV color space. |
-| Wall Following | `controlar_paredes` | Keeps the robot centered in the track corridor. |
-| Corner Navigation | `analizar_ruta`, `girar_hacia_lado_abierto` | Determines which direction to turn and executes the corner maneuver. |
-| Pillar Avoidance | `evitar_obstaculo` | Passes red pillars on the right and green pillars on the left. |
-| Emergency Maneuver | `reversa_emergencia` | Reverses when the front wall is too close. |
-| Lap Counting | `iniciar_mpu6050`, `calibrar_mpu6050`, `leer_gyro_z`, `actualizar_mpu6050`, `revisar_limite_vueltas` | Integrates gyroscope measurements to determine when three laps have been completed. |
-| Debug Display | `dibujar_radar` | Displays the camera detection area and a top-down LiDAR radar visualization. |
-
-## 1.3 Main Control Flow
-
-```mermaid
-flowchart TD
-    A["Power on: start LiDAR thread, calibrate MPU6050, initialize camera"] --> B["Wait for the start button on GPIO 16"]
-    B --> C["Reset rotation angle, activate servo, start moving"]
-    C --> D["Update total rotation angle using the gyroscope"]
-    D --> E{"abs(angle) >= 1095 degrees?"}
-    E -- Yes --> F["Continue moving for 2.5 seconds, then stop and center the servo"]
-    E -- No --> G["Read camera color and LiDAR distances"]
-    G --> H{"Front distance <= 200 mm?"}
-    H -- Yes --> I["Emergency reverse"]
-    H -- No --> J{"Front distance <= 750 mm AND red or green pillar detected?"}
-    J -- Yes --> K["Avoid the pillar according to its color"]
-    J -- No --> L{"Already turning OR front distance <= 750 mm?"}
-    L -- Yes --> M["Corner turn"]
-    L -- No --> N["Move forward while staying centered between the walls"]
-    I --> D
-    K --> D
-    M --> D
-    N --> D
-```
-
-The decisions follow a **priority order**: safety first (emergency reverse), followed by pillar avoidance, corner navigation, and finally normal driving. During each control cycle, the steering servo moves a small step toward its target angle.
-
-## 1.4 Sensing
-
-**LiDAR sectors.** The LiDAR provides points around the robot. For each decision, we use a small angular sector and a robust distance measurement:
-
-| Sector | Direction (0 = Front) | Half-Width | Purpose |
-|---|---|---|---|
-| Front | 0 degrees | ±25 degrees | Detect front walls and obstacles. |
-| Left / Right | -90 / +90 degrees | ±18 degrees | Center the robot and follow walls. |
-| Diagonals | -45 / +45 degrees | ±16 to 20 degrees | Analyze corners and follow pillars. |
-| Front-side sectors | -25 / +25 degrees | ±12 degrees | Analyze corner entrances. |
-
-To reduce noise, the closest and farthest points are discarded in each sector (when there are 5 or more points), and the **20th percentile** of the remaining measurements is used. Packets with an incorrect CRC-8 are discarded, and points older than 0.25 seconds are removed.
-
-**Camera.** The image resolution is 640 x 480 (RGB), and the image is rotated 180 degrees because of the camera's mounting orientation. Only a horizontal strip of the image is analyzed (rows 180 to 310). Red is detected using two HSV ranges (hue 0-10 and 170-180), while green is detected using hue 35-90. After applying morphological opening and closing operations with a 5 x 5 kernel to remove noise, the largest contour of each color is measured. A color is accepted only if its area is greater than 800 pixels and larger than the area detected for the other color.
-
-## 1.5 Lane Following (Maintaining a Centered Position)
-
-We use a **proportional controller** for steering angle control (servo center = 90 degrees):
-
-- **When both walls are detected:** `correction = (left - right) x 0.035`, limited to ±22 degrees.
-- **After the first turn:** The robot follows the wall on the selected side at a target distance of **550 mm**, with a tolerance of ±90 mm (gain of 0.022, limited to ±12 degrees). Inside the tolerance range, the wheels remain straight.
-- **When only one wall is detected:** The robot maintains a distance of 550 mm from that wall.
-- **When no walls are detected:** The servo returns to the center position.
-
-## 1.6 Corner Navigation Strategy
-
-1. A corner is detected when the front distance is **750 mm or less**.
-
-2. `analizar_ruta()` measures seven sectors and assigns each side a score: **30% lateral + 35% diagonal + 35% front-side**. If the front-side distance on one side is less than 600 mm, that side receives a penalty calculated using `(600 - distance) x 1.8`. The side with the higher score is selected. If the difference between both scores is less than 180, priority is given to the side whose front-side sector is more than 100 mm clearer.
-
-3. **The first turn determines the driving direction** for the remainder of the competition run. All subsequent turns and emergency reverse maneuvers maintain that direction. This follows the rule that the driving direction cannot change during a round.
-
-4. During a turn, the speed depends on the available front clearance:
-   - 70% when the distance is less than 650 mm.
-   - 74% when the distance is less than 950 mm.
-   - 80% otherwise.
-
-5. The turn ends when both side walls are detected and the front distance is **at least 1000 mm**, indicating that the robot has returned to a corridor. The servo then returns to the center position.
-
-## 1.7 Pillar Avoidance Strategy
-
-The rules require the robot to pass on the **right side of red pillars** and on the **left side of green pillars**.
-
-The program starts an avoidance maneuver when the **LiDAR confirms an object at 750 mm or less and the camera detects a red or green color**.
-
-1. The robot stops, centers the steering servo, and reverses slightly (0.32 seconds) to create additional clearance.
-
-2. It turns toward the required side according to the detected color (red = right, green = left) and moves forward for 0.38 seconds.
-
-3. It follows the pillar using LiDAR measurements:
-   - If the front distance is less than 350 mm, it increases the steering angle.
-   - While the diagonal distance on that side is less than 850 mm, it continues moving around the pillar.
-   - If the side wall distance is less than 430 mm, it steers back toward the center.
-
-4. The maneuver ends when the front distance is greater than 1250 mm and the diagonal sector is clear (greater than 1000 mm), or when the maximum safety time of 2.8 seconds is reached.
-
-5. The robot straightens its steering for 0.30 seconds and returns to normal wall-following mode.
-
-**Mechanical note:** Due to our steering configuration, a servo angle of 65 degrees makes the robot turn **right**, while 115 degrees makes it turn **left**. In the code, `SERVO_IZQUIERDA` and `SERVO_DERECHA` refer to the servo angle names, not the actual direction of the robot.
-
-## 1.8 Lap Counting and Final Stop
-
-The MPU6050 measures rotational speed around the vertical axis. The program integrates these measurements over time to calculate the **total rotation angle** (counterclockwise rotations are positive, and clockwise rotations are negative).
-
-- At startup, the sensor is calibrated for 2 seconds while the robot remains stationary to measure its resting bias.
-- Readings below 2.5 degrees/second are treated as noise, and readings above 300 degrees/second are limited to 300 degrees/second.
-- A correction factor of 1.02 is applied.
-- One lap is counted as **365 degrees**, meaning three laps equal **1095 degrees**. The competition run ends when the absolute rotation angle reaches this value, allowing the system to work in both clockwise and counterclockwise directions.
-- Once the target is reached, the robot continues moving forward for **2.5 seconds**, then stops, centers the steering servo, and turns it off.
-
-**Engineering justification:**
-
-We selected 365 degrees instead of 360 degrees for one lap because the sensor is not 100% accurate. We performed several tests, comparing the gyroscope readings with the robot's actual physical movement.
-
-After more than five tests, we found that setting the target to 365 degrees allowed the robot to detect one complete lap more accurately.
-
-We also selected the correction factor of 1.02 through different combinations and adjustments during our testing process.
-
-The additional 2.5 seconds of forward movement after completing the three laps allows the robot to reach the starting section before stopping.
-
-With this combination of values, the robot successfully completes more than three laps and stops in the starting section in over 75% of our practice runs.
-
-## 1.9 Safety and Special Cases
-
-| Situation | Program Response |
-|---|---|
-| Front wall at 200 mm or less | Performs an emergency reverse for 0.6 seconds, then turns according to the previously selected direction (or away from the closest wall if no direction has been selected yet). |
-| Damaged LiDAR data | Uses CRC-8 verification and removes outdated measurements. |
-| LiDAR disconnected | The program prints an error and continues without distance measurements. |
-| MPU6050 disconnected | The program prints a warning; without this sensor, lap-based stopping cannot operate. |
-| Selected side becomes blocked during a turn | Before the driving direction is fixed, the robot can switch to the more open side. |
-| Incorrect color detection | Uses a minimum area threshold of 800 pixels, noise filtering, and LiDAR confirmation before avoiding a pillar. |
-| Program interrupted (ESC or Ctrl+C) | Stops the motor, centers and disables the servo, and releases the camera and GPIO resources. |
-
-## 1.10 Installation and Execution
-
-1. Use Raspberry Pi OS with a desktop environment because the program opens preview windows. Enable **I2C** and the **serial port (UART)** using `sudo raspi-config`. Disable Wi-Fi and Bluetooth for the competition (Rule 11.10).
-
-2. Install the dependencies:
-
-   ```bash
-   sudo apt install python3-opencv python3-picamera2 python3-rpi.gpio python3-serial python3-smbus2
-   ```
-
-   **[TEAM: Confirm the exact packages or pip commands used.]**
-
-3. Copy the code from the `src` folder to the Raspberry Pi and execute:
-
-   ```bash
-   python3 ultimo123.py
-   ```
-
-4. Wait for the **green LED** (robot ready). Keep the robot stationary while the gyroscope is being calibrated, place it in the starting area, and press the **start button**.
-
-5. Press **ESC** in a preview window or **Ctrl+C** in the terminal to stop the program.
-
-Main adjustable parameters:
-
-`VELOCIDAD = 89`, `DISTANCIA_GIRO = 750`, `DISTANCIA_CRITICA = 200`, `KP = 0.035`, `DISTANCIA_RUTA_PARED = 550`, `VUELTAS_OBJETIVO = 3`, `ANGULO_POR_VUELTA = 365`, `TIEMPO_ESPERA_PARADA = 2.5`.
-
----
-
-# 2. Wiring and Power
-
-## 2.1 Signal Connections (According to the Code)
-
-| Component | Raspberry Pi Connection | Notes |
-|---|---|---|
-| Start Button | GPIO 16 | Internal pull-up; reads LOW when pressed. The other terminal connects to GND. |
-| Steering Servo (signal) | GPIO 18 | PWM at 50 Hz, operating range of 60 to 120 degrees, center position at 90 degrees. |
-| Green LED (ready indicator) | GPIO 21 | Turns on when the robot is ready. |
-| L298N IN3 | GPIO 17 | Motor direction control. |
-| L298N IN4 | GPIO 27 | Motor direction control. |
-| L298N Enable (ENB) | GPIO 22 | PWM at 1 kHz for speed control. |
-| LDROBOT D500 LiDAR | UART `/dev/serial0`, 230400 baud | Powered from the Raspberry Pi 5 V supply. |
-| MPU6050 | I2C Bus 1 (SDA = GPIO 2, SCL = GPIO 3), address 0x68 | Powered from the Raspberry Pi 3.3 V supply. |
-| Raspberry Pi Camera V2 | CSI ribbon cable | 640 x 480 resolution, rotated 180 degrees through software. |
-
-## 2.2 Block Diagram
-
-```mermaid
-flowchart LR
-    BAT["Battery"] --> L298["L298N Motor Driver"]
-    L298 --> MOT["DC Traction Motor"]
-    PWR["5 V Power Supply for Raspberry Pi - variable regulator"] --> PI["Raspberry Pi 4B"]
-    PI -->|"GPIO17, GPIO27, GPIO22 PWM"| L298
-    PI -->|"GPIO18 PWM"| SERVO["Steering Servo"]
-    BTN["Start Button"] -->|"GPIO16"| PI
-    PI -->|"GPIO21"| LED["Green LED"]
-    LIDAR["LDROBOT D500 LiDAR"] -->|"UART 230400 baud"| PI
-    IMU["MPU6050"] -->|"I2C 0x68"| PI
-    CAM["Raspberry Pi Camera V2"] -->|"CSI Ribbon Cable"| PI
-```
-
-## 2.3 Power Architecture
-
-Our bill of materials includes a battery, but the documentation must also explain how each component receives power.
-
-| Question | Answer |
-|---|---|
-| Battery type, voltage, and capacity | 14.8 V LiPo battery, 45C, 2200 mAh. |
-| How the Raspberry Pi receives its 5 V supply (regulator or power bank) | A voltage regulator steps down the battery voltage from 14 V to a stable 5 V supply. |
-| How the servo, LiDAR, and gyroscope are powered | They receive power directly from the Raspberry Pi power connections. |
-| Main power switch (one switch only, according to the rule) | One physical switch for power and one push button to start the program. |
-
-| Component | Estimated Current | Measurement Method |
-|---|---|---|
-| Raspberry Pi 4 + Camera + LiDAR | 600–1,200 mA | Measured using a multimeter at the Raspberry Pi power input. |
-| Traction Motor (peak) | 250 mA | Measured using a multimeter at the power input and output. |
-| Steering Servo (peak) | 300 mA | Measured using a multimeter at the power input and output. |
-
-## 2.4 Sensor Placement and Calibration
-
-- **LiDAR:** Mounted at a 90-degree angle relative to the front of the robot. The software compensates for this orientation using `angulo_robot_a_lidar`.
-- **Camera:** Faces forward. Only image rows 180 to 310 are analyzed.
-- **Gyroscope:** Calibrated for 2 seconds at every startup while the robot remains stationary.
-- **Color Detection:** HSV thresholds were configured specifically to detect the red and green pillars.
-
----
-
-# 3. Engineering Decisions, Constraints, and Risks
-
-## 3.1 Constraints
-
-| Constraint | Source | Impact on Design |
-|---|---|---|
-| Vehicle dimensions: 300 x 200 x 300 mm; maximum weight: 1.5 kg | Rules 11.1 and 11.2 | Final robot dimensions: 200 x 162 x 200 mm; weight: 0.8 kg. |
-| Four wheels, one driven axle, and one steering actuator | Rule 11.3 | One traction channel (L298N) and one steering servo. |
-| No Wi-Fi, Bluetooth, or radio communication | Rule 11.10 | Wireless communication is disabled on the Raspberry Pi. |
-| One power switch and one start button | Rules 9.10 and 9.11 | Start button connected to GPIO 16. |
-| Three-minute competition round | Rules 9.1 and 9.2 | High driving speed (89% PWM) with reduced speed during cornering. |
-| Random track layout for each round | Chapter 8 | Decisions are based on real-time sensor measurements rather than a predefined route. |
-
-## 3.2 Engineering Decisions: "We Chose X Instead of Y Because..."
-
-| Decision | Alternative | Reason | Evidence |
-|---|---|---|---|
-| LiDAR for distance measurements | Ultrasonic or ToF sensors | A single 360-degree sensor covers the front, sides, and diagonal directions. | An ultrasonic sensor only measures the distance in the direction it is pointing. The LiDAR, however, provides a 2D map of the surrounding area, making it more suitable for preventing collisions. Using ultrasonic sensors would require four or more sensors to achieve similar coverage. |
-| Gyroscope for lap counting | Counting corners or colored floor lines | Measures rotation directly, regardless of the shape of the walls, and works in both driving directions. | When the robot moved at high speed, it could not reliably detect the floor lines, making its turning behavior unstable. |
-| Fixing the driving direction after the first turn | Recalculating the direction at every corner | The driving direction cannot change during a round, preventing incorrect turns. | Incorrect sensor readings sometimes caused the robot to turn in the wrong direction. This function prevents subsequent wall-reading errors from changing the selected driving direction. |
-| Weighted scoring for corner selection | Comparing only the left and right distances | Evaluates the corner entrance instead of relying only on the walls beside the robot. | At a corner, part of the next passage becomes visible, and the sensor may detect it as the continuation of the track. |
-| Smooth servo movement | Direct servo angle changes | Prevents sudden movements and improves stability. | Previously, the robot made sudden steering movements and became unstable. The new approach provides smoother and more precise steering. |
-| LiDAR confirms the pillar while the camera identifies its color | Camera-only detection | Prevents the robot from reacting to distant colors or visual noise. | When only the camera was used, the robot sometimes detected a color even when there was no actual obstacle, causing unnecessary turns and negatively affecting its performance. |
-
-## 3.3 Risks and Mitigation
-
-| Risk | Design Mitigation |
-|---|---|
-| Noisy or corrupted LiDAR measurements | CRC-8 verification, removal of outdated points, and percentile filtering. |
-| Gyroscope drift | Startup calibration, noise dead zone, rotational speed limit, and correction factor. |
-| Robot gets too close to a wall | Emergency reverse maneuver at 200 mm. |
-| Incorrect lap counting | Calibration adjustments were performed to find a value closer to the robot's actual physical rotation instead of using a fixed 360-degree value. Through testing, we determined that 365 degrees provides a more accurate lap measurement. |
-| Parallel parking maneuver | This version of the program **does not** include the parallel parking maneuver. |
-
-</div>
-
-</div>
-
-</div>
-
 <div align="center">
 
 <table>
@@ -3692,5 +3414,282 @@ To achieve autonomous navigation through sensor-based measurements, visual recog
    </td>
   </tr>
 </table>
+
+</div>
+
+
+</div>
+
+</div>
+
+# 1. Software Architecture and Obstacle Strategy
+
+## 1.1 Overview
+
+The robot is controlled by a single Python 3 program running on a **Raspberry Pi 4 Model B**. It combines four sensors:
+
+- **LiDAR (LDROBOT D500):** Measures the distance to walls (front, left, right, and diagonal directions).
+- **Camera (Raspberry Pi Camera V2):** Detects the colors of the pillars (red or green).
+- **Gyroscope (MPU6050):** Measures how many degrees the robot has rotated to count the three laps.
+- **Start Button:** The only way to start the competition run.
+
+The robot has one traction motor (controlled by an L298N driver) and one steering servo, meeting the vehicle configuration requirement of one driven axle and one steering actuator.
+
+## 1.2 Program Structure
+
+The program consists of a single file with clearly separated sections. The LiDAR runs in its own thread, allowing distance measurements to remain updated while the main control loop makes decisions.
+
+| Block | Main Functions | Description |
+|---|---|---|
+| Steering Servo | `activar_servo`, `establecer_objetivo_servo`, `actualizar_servo` | Smoothly moves the servo toward a target angle, using larger steps when far from the target and smaller steps when approaching it, preventing sudden movements. |
+| Traction Motor | `motor_avanzar`, `motor_retroceder`, `motor_parar` | Controls forward movement, reverse movement, and stopping through PWM speed control. |
+| LiDAR Thread | `leer_lidar`, `crc8` | Reads 47-byte packets, verifies the CRC-8, and stores only points from the last 0.25 seconds. |
+| Distance Zones | `distancia_zona`, `distancia_frente`, `distancia_izquierda`, `distancia_derecha` | Calculates a reliable distance measurement for a specific angular sector (for example, the front sector ±25 degrees). |
+| Color Detection | `detectar_color` | Detects red or green pillars in the camera image using the HSV color space. |
+| Wall Following | `controlar_paredes` | Keeps the robot centered in the track corridor. |
+| Corner Navigation | `analizar_ruta`, `girar_hacia_lado_abierto` | Determines which direction to turn and executes the corner maneuver. |
+| Pillar Avoidance | `evitar_obstaculo` | Passes red pillars on the right and green pillars on the left. |
+| Emergency Maneuver | `reversa_emergencia` | Reverses when the front wall is too close. |
+| Lap Counting | `iniciar_mpu6050`, `calibrar_mpu6050`, `leer_gyro_z`, `actualizar_mpu6050`, `revisar_limite_vueltas` | Integrates gyroscope measurements to determine when three laps have been completed. |
+| Debug Display | `dibujar_radar` | Displays the camera detection area and a top-down LiDAR radar visualization. |
+
+## 1.3 Main Control Flow
+
+```mermaid
+flowchart TD
+    A["Power on: start LiDAR thread, calibrate MPU6050, initialize camera"] --> B["Wait for the start button on GPIO 16"]
+    B --> C["Reset rotation angle, activate servo, start moving"]
+    C --> D["Update total rotation angle using the gyroscope"]
+    D --> E{"abs(angle) >= 1095 degrees?"}
+    E -- Yes --> F["Continue moving for 2.5 seconds, then stop and center the servo"]
+    E -- No --> G["Read camera color and LiDAR distances"]
+    G --> H{"Front distance <= 200 mm?"}
+    H -- Yes --> I["Emergency reverse"]
+    H -- No --> J{"Front distance <= 750 mm AND red or green pillar detected?"}
+    J -- Yes --> K["Avoid the pillar according to its color"]
+    J -- No --> L{"Already turning OR front distance <= 750 mm?"}
+    L -- Yes --> M["Corner turn"]
+    L -- No --> N["Move forward while staying centered between the walls"]
+    I --> D
+    K --> D
+    M --> D
+    N --> D
+```
+
+The decisions follow a **priority order**: safety first (emergency reverse), followed by pillar avoidance, corner navigation, and finally normal driving. During each control cycle, the steering servo moves a small step toward its target angle.
+
+## 1.4 Sensing
+
+**LiDAR sectors.** The LiDAR provides points around the robot. For each decision, we use a small angular sector and a robust distance measurement:
+
+| Sector | Direction (0 = Front) | Half-Width | Purpose |
+|---|---|---|---|
+| Front | 0 degrees | ±25 degrees | Detect front walls and obstacles. |
+| Left / Right | -90 / +90 degrees | ±18 degrees | Center the robot and follow walls. |
+| Diagonals | -45 / +45 degrees | ±16 to 20 degrees | Analyze corners and follow pillars. |
+| Front-side sectors | -25 / +25 degrees | ±12 degrees | Analyze corner entrances. |
+
+To reduce noise, the closest and farthest points are discarded in each sector (when there are 5 or more points), and the **20th percentile** of the remaining measurements is used. Packets with an incorrect CRC-8 are discarded, and points older than 0.25 seconds are removed.
+
+**Camera.** The image resolution is 640 x 480 (RGB), and the image is rotated 180 degrees because of the camera's mounting orientation. Only a horizontal strip of the image is analyzed (rows 180 to 310). Red is detected using two HSV ranges (hue 0-10 and 170-180), while green is detected using hue 35-90. After applying morphological opening and closing operations with a 5 x 5 kernel to remove noise, the largest contour of each color is measured. A color is accepted only if its area is greater than 800 pixels and larger than the area detected for the other color.
+
+## 1.5 Lane Following (Maintaining a Centered Position)
+
+We use a **proportional controller** for steering angle control (servo center = 90 degrees):
+
+- **When both walls are detected:** `correction = (left - right) x 0.035`, limited to ±22 degrees.
+- **After the first turn:** The robot follows the wall on the selected side at a target distance of **550 mm**, with a tolerance of ±90 mm (gain of 0.022, limited to ±12 degrees). Inside the tolerance range, the wheels remain straight.
+- **When only one wall is detected:** The robot maintains a distance of 550 mm from that wall.
+- **When no walls are detected:** The servo returns to the center position.
+
+## 1.6 Corner Navigation Strategy
+
+1. A corner is detected when the front distance is **750 mm or less**.
+
+2. `analizar_ruta()` measures seven sectors and assigns each side a score: **30% lateral + 35% diagonal + 35% front-side**. If the front-side distance on one side is less than 600 mm, that side receives a penalty calculated using `(600 - distance) x 1.8`. The side with the higher score is selected. If the difference between both scores is less than 180, priority is given to the side whose front-side sector is more than 100 mm clearer.
+
+3. **The first turn determines the driving direction** for the remainder of the competition run. All subsequent turns and emergency reverse maneuvers maintain that direction. This follows the rule that the driving direction cannot change during a round.
+
+4. During a turn, the speed depends on the available front clearance:
+   - 70% when the distance is less than 650 mm.
+   - 74% when the distance is less than 950 mm.
+   - 80% otherwise.
+
+5. The turn ends when both side walls are detected and the front distance is **at least 1000 mm**, indicating that the robot has returned to a corridor. The servo then returns to the center position.
+
+## 1.7 Pillar Avoidance Strategy
+
+The rules require the robot to pass on the **right side of red pillars** and on the **left side of green pillars**.
+
+The program starts an avoidance maneuver when the **LiDAR confirms an object at 750 mm or less and the camera detects a red or green color**.
+
+1. The robot stops, centers the steering servo, and reverses slightly (0.32 seconds) to create additional clearance.
+
+2. It turns toward the required side according to the detected color (red = right, green = left) and moves forward for 0.38 seconds.
+
+3. It follows the pillar using LiDAR measurements:
+   - If the front distance is less than 350 mm, it increases the steering angle.
+   - While the diagonal distance on that side is less than 850 mm, it continues moving around the pillar.
+   - If the side wall distance is less than 430 mm, it steers back toward the center.
+
+4. The maneuver ends when the front distance is greater than 1250 mm and the diagonal sector is clear (greater than 1000 mm), or when the maximum safety time of 2.8 seconds is reached.
+
+5. The robot straightens its steering for 0.30 seconds and returns to normal wall-following mode.
+
+**Mechanical note:** Due to our steering configuration, a servo angle of 65 degrees makes the robot turn **right**, while 115 degrees makes it turn **left**. In the code, `SERVO_IZQUIERDA` and `SERVO_DERECHA` refer to the servo angle names, not the actual direction of the robot.
+
+## 1.8 Lap Counting and Final Stop
+
+The MPU6050 measures rotational speed around the vertical axis. The program integrates these measurements over time to calculate the **total rotation angle** (counterclockwise rotations are positive, and clockwise rotations are negative).
+
+- At startup, the sensor is calibrated for 2 seconds while the robot remains stationary to measure its resting bias.
+- Readings below 2.5 degrees/second are treated as noise, and readings above 300 degrees/second are limited to 300 degrees/second.
+- A correction factor of 1.02 is applied.
+- One lap is counted as **365 degrees**, meaning three laps equal **1095 degrees**. The competition run ends when the absolute rotation angle reaches this value, allowing the system to work in both clockwise and counterclockwise directions.
+- Once the target is reached, the robot continues moving forward for **2.5 seconds**, then stops, centers the steering servo, and turns it off.
+
+**Engineering justification:**
+
+We selected 365 degrees instead of 360 degrees for one lap because the sensor is not 100% accurate. We performed several tests, comparing the gyroscope readings with the robot's actual physical movement.
+
+After more than five tests, we found that setting the target to 365 degrees allowed the robot to detect one complete lap more accurately.
+
+We also selected the correction factor of 1.02 through different combinations and adjustments during our testing process.
+
+The additional 2.5 seconds of forward movement after completing the three laps allows the robot to reach the starting section before stopping.
+
+With this combination of values, the robot successfully completes more than three laps and stops in the starting section in over 75% of our practice runs.
+
+## 1.9 Safety and Special Cases
+
+| Situation | Program Response |
+|---|---|
+| Front wall at 200 mm or less | Performs an emergency reverse for 0.6 seconds, then turns according to the previously selected direction (or away from the closest wall if no direction has been selected yet). |
+| Damaged LiDAR data | Uses CRC-8 verification and removes outdated measurements. |
+| LiDAR disconnected | The program prints an error and continues without distance measurements. |
+| MPU6050 disconnected | The program prints a warning; without this sensor, lap-based stopping cannot operate. |
+| Selected side becomes blocked during a turn | Before the driving direction is fixed, the robot can switch to the more open side. |
+| Incorrect color detection | Uses a minimum area threshold of 800 pixels, noise filtering, and LiDAR confirmation before avoiding a pillar. |
+| Program interrupted (ESC or Ctrl+C) | Stops the motor, centers and disables the servo, and releases the camera and GPIO resources. |
+
+## 1.10 Installation and Execution
+
+1. Use Raspberry Pi OS with a desktop environment because the program opens preview windows. Enable **I2C** and the **serial port (UART)** using `sudo raspi-config`. Disable Wi-Fi and Bluetooth for the competition (Rule 11.10).
+
+2. Install the dependencies:
+
+   ```bash
+   sudo apt install python3-opencv python3-picamera2 python3-rpi.gpio python3-serial python3-smbus2
+   ```
+
+   **[TEAM: Confirm the exact packages or pip commands used.]**
+
+3. Copy the code from the `src` folder to the Raspberry Pi and execute:
+
+   ```bash
+   python3 ultimo123.py
+   ```
+
+4. Wait for the **green LED** (robot ready). Keep the robot stationary while the gyroscope is being calibrated, place it in the starting area, and press the **start button**.
+
+5. Press **ESC** in a preview window or **Ctrl+C** in the terminal to stop the program.
+
+Main adjustable parameters:
+
+`VELOCIDAD = 89`, `DISTANCIA_GIRO = 750`, `DISTANCIA_CRITICA = 200`, `KP = 0.035`, `DISTANCIA_RUTA_PARED = 550`, `VUELTAS_OBJETIVO = 3`, `ANGULO_POR_VUELTA = 365`, `TIEMPO_ESPERA_PARADA = 2.5`.
+
+---
+
+# 2. Wiring and Power
+
+## 2.1 Signal Connections (According to the Code)
+
+| Component | Raspberry Pi Connection | Notes |
+|---|---|---|
+| Start Button | GPIO 16 | Internal pull-up; reads LOW when pressed. The other terminal connects to GND. |
+| Steering Servo (signal) | GPIO 18 | PWM at 50 Hz, operating range of 60 to 120 degrees, center position at 90 degrees. |
+| Green LED (ready indicator) | GPIO 21 | Turns on when the robot is ready. |
+| L298N IN3 | GPIO 17 | Motor direction control. |
+| L298N IN4 | GPIO 27 | Motor direction control. |
+| L298N Enable (ENB) | GPIO 22 | PWM at 1 kHz for speed control. |
+| LDROBOT D500 LiDAR | UART `/dev/serial0`, 230400 baud | Powered from the Raspberry Pi 5 V supply. |
+| MPU6050 | I2C Bus 1 (SDA = GPIO 2, SCL = GPIO 3), address 0x68 | Powered from the Raspberry Pi 3.3 V supply. |
+| Raspberry Pi Camera V2 | CSI ribbon cable | 640 x 480 resolution, rotated 180 degrees through software. |
+
+## 2.2 Block Diagram
+
+```mermaid
+flowchart LR
+    BAT["Battery"] --> L298["L298N Motor Driver"]
+    L298 --> MOT["DC Traction Motor"]
+    PWR["5 V Power Supply for Raspberry Pi - variable regulator"] --> PI["Raspberry Pi 4B"]
+    PI -->|"GPIO17, GPIO27, GPIO22 PWM"| L298
+    PI -->|"GPIO18 PWM"| SERVO["Steering Servo"]
+    BTN["Start Button"] -->|"GPIO16"| PI
+    PI -->|"GPIO21"| LED["Green LED"]
+    LIDAR["LDROBOT D500 LiDAR"] -->|"UART 230400 baud"| PI
+    IMU["MPU6050"] -->|"I2C 0x68"| PI
+    CAM["Raspberry Pi Camera V2"] -->|"CSI Ribbon Cable"| PI
+```
+
+## 2.3 Power Architecture
+
+Our bill of materials includes a battery, but the documentation must also explain how each component receives power.
+
+| Question | Answer |
+|---|---|
+| Battery type, voltage, and capacity | 14.8 V LiPo battery, 45C, 2200 mAh. |
+| How the Raspberry Pi receives its 5 V supply (regulator or power bank) | A voltage regulator steps down the battery voltage from 14 V to a stable 5 V supply. |
+| How the servo, LiDAR, and gyroscope are powered | They receive power directly from the Raspberry Pi power connections. |
+| Main power switch (one switch only, according to the rule) | One physical switch for power and one push button to start the program. |
+
+| Component | Estimated Current | Measurement Method |
+|---|---|---|
+| Raspberry Pi 4 + Camera + LiDAR | 600–1,200 mA | Measured using a multimeter at the Raspberry Pi power input. |
+| Traction Motor (peak) | 250 mA | Measured using a multimeter at the power input and output. |
+| Steering Servo (peak) | 300 mA | Measured using a multimeter at the power input and output. |
+
+## 2.4 Sensor Placement and Calibration
+
+- **LiDAR:** Mounted at a 90-degree angle relative to the front of the robot. The software compensates for this orientation using `angulo_robot_a_lidar`.
+- **Camera:** Faces forward. Only image rows 180 to 310 are analyzed.
+- **Gyroscope:** Calibrated for 2 seconds at every startup while the robot remains stationary.
+- **Color Detection:** HSV thresholds were configured specifically to detect the red and green pillars.
+
+---
+
+# 3. Engineering Decisions, Constraints, and Risks
+
+## 3.1 Constraints
+
+| Constraint | Source | Impact on Design |
+|---|---|---|
+| Vehicle dimensions: 300 x 200 x 300 mm; maximum weight: 1.5 kg | Rules 11.1 and 11.2 | Final robot dimensions: 200 x 162 x 200 mm; weight: 0.8 kg. |
+| Four wheels, one driven axle, and one steering actuator | Rule 11.3 | One traction channel (L298N) and one steering servo. |
+| No Wi-Fi, Bluetooth, or radio communication | Rule 11.10 | Wireless communication is disabled on the Raspberry Pi. |
+| One power switch and one start button | Rules 9.10 and 9.11 | Start button connected to GPIO 16. |
+| Three-minute competition round | Rules 9.1 and 9.2 | High driving speed (89% PWM) with reduced speed during cornering. |
+| Random track layout for each round | Chapter 8 | Decisions are based on real-time sensor measurements rather than a predefined route. |
+
+## 3.2 Engineering Decisions: "We Chose X Instead of Y Because..."
+
+| Decision | Alternative | Reason | Evidence |
+|---|---|---|---|
+| LiDAR for distance measurements | Ultrasonic or ToF sensors | A single 360-degree sensor covers the front, sides, and diagonal directions. | An ultrasonic sensor only measures the distance in the direction it is pointing. The LiDAR, however, provides a 2D map of the surrounding area, making it more suitable for preventing collisions. Using ultrasonic sensors would require four or more sensors to achieve similar coverage. |
+| Gyroscope for lap counting | Counting corners or colored floor lines | Measures rotation directly, regardless of the shape of the walls, and works in both driving directions. | When the robot moved at high speed, it could not reliably detect the floor lines, making its turning behavior unstable. |
+| Fixing the driving direction after the first turn | Recalculating the direction at every corner | The driving direction cannot change during a round, preventing incorrect turns. | Incorrect sensor readings sometimes caused the robot to turn in the wrong direction. This function prevents subsequent wall-reading errors from changing the selected driving direction. |
+| Weighted scoring for corner selection | Comparing only the left and right distances | Evaluates the corner entrance instead of relying only on the walls beside the robot. | At a corner, part of the next passage becomes visible, and the sensor may detect it as the continuation of the track. |
+| Smooth servo movement | Direct servo angle changes | Prevents sudden movements and improves stability. | Previously, the robot made sudden steering movements and became unstable. The new approach provides smoother and more precise steering. |
+| LiDAR confirms the pillar while the camera identifies its color | Camera-only detection | Prevents the robot from reacting to distant colors or visual noise. | When only the camera was used, the robot sometimes detected a color even when there was no actual obstacle, causing unnecessary turns and negatively affecting its performance. |
+
+## 3.3 Risks and Mitigation
+
+| Risk | Design Mitigation |
+|---|---|
+| Noisy or corrupted LiDAR measurements | CRC-8 verification, removal of outdated points, and percentile filtering. |
+| Gyroscope drift | Startup calibration, noise dead zone, rotational speed limit, and correction factor. |
+| Robot gets too close to a wall | Emergency reverse maneuver at 200 mm. |
+| Incorrect lap counting | Calibration adjustments were performed to find a value closer to the robot's actual physical rotation instead of using a fixed 360-degree value. Through testing, we determined that 365 degrees provides a more accurate lap measurement. |
+| Parallel parking maneuver | This version of the program **does not** include the parallel parking maneuver. |
 
 </div>
