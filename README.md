@@ -14,6 +14,10 @@
       <ul>
         <li><b>Daniel R. Roman</b> - 19 years old</li>
         <li><b>Luis Rios Santos</b> - 19 years old</li>
+      </div>
+       <h3>Team Coach</h3>
+      <ul>
+      <li><b>Edgardo Sanding</b> 
       </ul>
     </td>
   </tr>
@@ -207,13 +211,15 @@
   </tr>
   <tr>
     <td align="center" valign="middle">
-      <a href="https://www.youtube.com/watch?v=gKQ9p0fb9es">
+     <img width="299" height="168" alt="pista libre" src="https://github.com/user-attachments/assets/817c664c-815f-471c-a872-e3f0d5317c73" />
+     <a href="https://www.youtube.com/watch?v=gKQ9p0fb9es">
       <br>
         ▶ WATCH VIDEO
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://www.youtube.com/watch?v=xgvaWdWjpQ0">
+     <img width="299" height="168" alt="pista optaculos" src="https://github.com/user-attachments/assets/8529e708-96a2-419f-9b34-1ff02ddcc6ea" />
+     <a href="https://www.youtube.com/watch?v=xgvaWdWjpQ0">
       <br>
         ▶ WATCH VIDEO
       </a>
