@@ -195,6 +195,34 @@
 
 
 </div>
+
+
+<h2 align="center">🎥 ROBOT PERFORMANCE VIDEOS</h2>
+
+<table width="100%">
+  <tr>
+    <th>Free Driving Mode</th>
+    <th>Obstacle Challenge Mode</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://www.youtube.com/watch?v=gKQ9p0fb9es">
+        <img src="images/free_driving_thumbnail.jpg" width="100%">
+        <br>
+        ▶ Watch Free Driving Video
+      </a>
+    </td>
+    <td align="center">
+      <a href="PASTE_OBSTACLE_CHALLENGE_VIDEO_LINK_HERE">
+        <img src="images/obstacle_challenge_thumbnail.jpg" width="100%">
+        <br>
+        ▶ Watch Obstacle Challenge Video
+      </a>
+    </td>
+  </tr>
+</table>
+
+
 </div>
 
 <h2 align="center">Programming and explanation</h2>
