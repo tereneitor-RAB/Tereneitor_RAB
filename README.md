@@ -172,15 +172,15 @@
   <tr><td>3</td><td>LDROBOT D500 LiDAR</td><td>1</td><td>$69.00</td><td align="center"><img width="100" height="100" alt="lidar" src="https://github.com/user-attachments/assets/e3c97017-a9eb-47c7-bcbb-153b37654941" /></td></tr>
   <tr><td>4</td><td>L298N Motor Driver</td><td>1</td><td>$5.00</td><td align="center"><img width="100" height="100" alt="modulo de motor" src="https://github.com/user-attachments/assets/e14e3844-c034-410b-9f72-12cad4905df4" /></td></tr>
   <tr><td>5</td><td>Servo Motor</td><td>1</td><td>$8.00</td><td align="center"><img width="100" height="100" alt="servomotor" src="https://github.com/user-attachments/assets/dfa73709-dc55-46df-90c8-4e3b3b738387" /></td></tr>
-  <tr><td>6</td><td>DC Motors</td><td>1 set</td><td>$15.00</td><td align="center">ADD PHOTO</td></tr>
-  <tr><td>7</td><td>Wheels</td><td>4</td><td>$12.00</td><td align="center">ADD PHOTO</td></tr>
-  <tr><td>8</td><td>Robot Chassis</td><td>1</td><td>$25.00</td><td align="center">ADD PHOTO</td></tr>
+  <tr><td>6</td><td>DC Motors</td><td>1 set</td><td>$15.00</td><td align="center"><img width="100" height="100" alt="motor" src="https://github.com/user-attachments/assets/46dbceec-6c98-4f2d-b266-1faeafb0e51d" /></td></tr>
+  <tr><td>7</td><td>Wheels</td><td>4</td><td>$12.00</td><td align="center"></div></td></tr>
+  <tr><td>8</td><td>Robot Chassis</td><td>1</td><td>$25.00</td><td align="center"><img width="100" height="100" alt="Chasis " src="https://github.com/user-attachments/assets/550e21bf-064d-4cfa-bc46-184f1b06260e" /></td></tr>
   <tr><td>9</td><td>Battery</td><td>1</td><td>$30.00</td><td align="center"><img width="100" height="100" alt="bateria 14v" src="https://github.com/user-attachments/assets/80052bb1-be84-4ff7-abb1-5f538c5ac37b" /></td></tr>
   <tr><td>10</td><td>Push Button</td><td>1</td><td>$0.50</td><td align="center"><img width="100" height="100" alt="boton" src="https://github.com/user-attachments/assets/9859c65a-fd7e-4efe-9e95-0d31e511d3c9" /></td></tr>
   <tr><td>11</td><td>Green LED</td><td>1</td><td>$0.25</td><td align="center"><img width="100" height="100" alt="led verde" src="https://github.com/user-attachments/assets/1c905373-eb23-4874-bbc7-8077776dce8d" /></td></tr>
   <tr><td>12</td><td>Jumper Wires / Cables</td><td>16</td><td>$2.00</td><td align="center"><img width="100" height="100" alt="cables" src="https://github.com/user-attachments/assets/1a0649b4-3abd-487d-8d34-b85df3717b26" /></td></tr>
   <tr><td>13</td><td>Screws and Nuts</td><td>56</td><td>$6.00</td><td align="center"><img width="100" height="100" alt="tornillos" src="https://github.com/user-attachments/assets/f5454a4d-a29f-4737-b835-4d6ffa381779" /></td></tr>
-  <tr><td>14</td><td>Camera Mount</td><td>1</td><td>$8.00</td><td align="center">ADD PHOTO</td></tr>
+  <tr><td>14</td><td>Camera Mount</td><td>1</td><td>$8.00</td><td align="center"></td>div></td></tr>
   <tr><td>15</td><td>Thread Separators</td><td>12</td><td>$5.00</td><td align="center"><img width="100" height="100" alt="espace" src="https://github.com/user-attachments/assets/f4d8237a-37b7-4bf3-b5c8-60bbb3235dd4" /></td></tr>
   <tr><td>16</td><td>Publisher / Programming Software</td><td>1</td><td>$0.00</td><td align="center"></td>div></td></tr>
   <tr><td>17</td><td>MPU6050</td><td>1</td><td>$4.00</td><td align="center"><img width="100" height="100" alt="sensor de movimiento" src="https://github.com/user-attachments/assets/6e6465d6-964f-41f8-aa2a-40b0d1a3b7bb" /></td></tr>
