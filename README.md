@@ -1,5 +1,8 @@
  <h1 align="center"> Tereneitor_RAB | Future Engineers | Puerto Rico🚀</h1>
 <br>
+
+<div align="center">
+
 <table>
   <tr>
     <td width="50%" align="center" valign="top">
@@ -157,7 +160,7 @@
 </table>
 
 </div>
-</div>
+<div align="center">
 
 
 <h2 align="center">💲 PRICE OF MATERIALS PURCHASED</h2>
@@ -200,6 +203,7 @@
 
 </div>
 
+<div align="center">
 
 <table>
 <tr>
