@@ -197,31 +197,33 @@
 </div>
 
 
+
 <h2 align="center">🎥 ROBOT PERFORMANCE VIDEOS</h2>
 
-<table width="100%">
+<table align="center" width="100%">
   <tr>
-    <th>Free Driving Mode</th>
-    <th>Obstacle Challenge Mode</th>
+    <th align="center">FREE DRIVING MODE</th>
+    <th align="center">OBSTACLE CHALLENGE MODE</th>
   </tr>
   <tr>
-    <td align="center">
+    <td align="center" valign="middle">
       <a href="https://www.youtube.com/watch?v=gKQ9p0fb9es">
-        <img src="images/free_driving_thumbnail.jpg" width="100%">
+         <img width="100%" alt="Free Driving Track" src="https://github.com/user-attachments/assets/4774b4a3-0c0c-4a07-b68f-001ee177829d" />
         <br>
-        ▶ Watch Free Driving Video
+        ▶ WATCH VIDEO
       </a>
     </td>
-    <td align="center">
-      <a href="PASTE_OBSTACLE_CHALLENGE_VIDEO_LINK_HERE">
-        <img src="images/obstacle_challenge_thumbnail.jpg" width="100%">
+    <td align="center" valign="middle">
+      <a href="https://www.youtube.com/watch?v=xgvaWdWjpQ0">
+      <img width="30%" alt="WRO Future Engineers Competition Track" src="https://github.com/user-attachments/assets/08d068fb-b5f2-45bb-9f0e-70b7402af340" />
         <br>
-        ▶ Watch Obstacle Challenge Video
+        ▶ WATCH VIDEO
       </a>
     </td>
   </tr>
 </table>
 
+</div>
 
 </div>
 
