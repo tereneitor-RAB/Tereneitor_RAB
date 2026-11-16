@@ -173,16 +173,16 @@
   <tr><td>4</td><td>L298N Motor Driver</td><td>1</td><td>$5.00</td><td align="center"><img width="100" height="100" alt="modulo de motor" src="https://github.com/user-attachments/assets/e14e3844-c034-410b-9f72-12cad4905df4" /></td></tr>
   <tr><td>5</td><td>Servo Motor</td><td>1</td><td>$8.00</td><td align="center"><img width="100" height="100" alt="servomotor" src="https://github.com/user-attachments/assets/dfa73709-dc55-46df-90c8-4e3b3b738387" /></td></tr>
   <tr><td>6</td><td>DC Motors</td><td>1 set</td><td>$15.00</td><td align="center"><img width="100" height="100" alt="motor" src="https://github.com/user-attachments/assets/46dbceec-6c98-4f2d-b266-1faeafb0e51d" /></td></tr>
-  <tr><td>7</td><td>Wheels</td><td>4</td><td>$12.00</td><td align="center"></div></td></tr>
+  <tr><td>7</td><td>Wheels</td><td>4</td><td>$12.00</td><td align="center"></td></tr>
   <tr><td>8</td><td>Robot Chassis</td><td>1</td><td>$25.00</td><td align="center"><img width="100" height="100" alt="Chasis " src="https://github.com/user-attachments/assets/550e21bf-064d-4cfa-bc46-184f1b06260e" /></td></tr>
   <tr><td>9</td><td>Battery</td><td>1</td><td>$30.00</td><td align="center"><img width="100" height="100" alt="bateria 14v" src="https://github.com/user-attachments/assets/80052bb1-be84-4ff7-abb1-5f538c5ac37b" /></td></tr>
   <tr><td>10</td><td>Push Button</td><td>1</td><td>$0.50</td><td align="center"><img width="100" height="100" alt="boton" src="https://github.com/user-attachments/assets/9859c65a-fd7e-4efe-9e95-0d31e511d3c9" /></td></tr>
   <tr><td>11</td><td>Green LED</td><td>1</td><td>$0.25</td><td align="center"><img width="100" height="100" alt="led verde" src="https://github.com/user-attachments/assets/1c905373-eb23-4874-bbc7-8077776dce8d" /></td></tr>
   <tr><td>12</td><td>Jumper Wires / Cables</td><td>16</td><td>$2.00</td><td align="center"><img width="100" height="100" alt="cables" src="https://github.com/user-attachments/assets/1a0649b4-3abd-487d-8d34-b85df3717b26" /></td></tr>
   <tr><td>13</td><td>Screws and Nuts</td><td>56</td><td>$6.00</td><td align="center"><img width="100" height="100" alt="tornillos" src="https://github.com/user-attachments/assets/f5454a4d-a29f-4737-b835-4d6ffa381779" /></td></tr>
-  <tr><td>14</td><td>Camera Mount</td><td>1</td><td>$8.00</td><td align="center"></td>div></td></tr>
+  <tr><td>14</td><td>Camera Mount</td><td>1</td><td>$8.00</td><td align="center"></td></td></tr>
   <tr><td>15</td><td>Thread Separators</td><td>12</td><td>$5.00</td><td align="center"><img width="100" height="100" alt="espace" src="https://github.com/user-attachments/assets/f4d8237a-37b7-4bf3-b5c8-60bbb3235dd4" /></td></tr>
-  <tr><td>16</td><td>Publisher / Programming Software</td><td>1</td><td>$0.00</td><td align="center"></td>div></td></tr>
+  <tr><td>16</td><td>Publisher / Programming Software</td><td>1</td><td>$0.00</td><td align="center"></td></td></tr>
   <tr><td>17</td><td>MPU6050</td><td>1</td><td>$4.00</td><td align="center"><img width="100" height="100" alt="sensor de movimiento" src="https://github.com/user-attachments/assets/6e6465d6-964f-41f8-aa2a-40b0d1a3b7bb" /></td></tr>
   <tr><td>18</td><td>Blue PLA Filament, 1 kg</td><td>1</td><td>$16.90</td><td align="center"><img width="100" height="100" alt="filamento asul" src="https://github.com/user-attachments/assets/98184d9e-29f3-4310-9b32-77c618688a9a" /></td></tr>
   <tr><td>19</td><td>Red PLA Filament, 1 kg</td><td>1</td><td>$16.90</td><td align="center"><img width="100" height="100" alt="filamento rojo" src="https://github.com/user-attachments/assets/09540b12-f576-4271-94c5-de827bff9e3b" /></td></tr>
@@ -197,26 +197,24 @@
 </div>
 
 
-
-<h2 align="center">🎥 ROBOT PERFORMANCE VIDEOS</h2>
-
-<table align="center" width="100%">
-  <tr>
+<table>
+<tr>
+  <td colspan="2" align="center"><h2>🎥 ROBOT PERFORMANCE VIDEOS</h2>
+  </td>
+</tr>
     <th align="center">FREE DRIVING MODE</th>
     <th align="center">OBSTACLE CHALLENGE MODE</th>
   </tr>
   <tr>
     <td align="center" valign="middle">
       <a href="https://www.youtube.com/watch?v=gKQ9p0fb9es">
-         <img width="100%" alt="Free Driving Track" src="https://github.com/user-attachments/assets/4774b4a3-0c0c-4a07-b68f-001ee177829d" />
-        <br>
+      <br>
         ▶ WATCH VIDEO
       </a>
     </td>
     <td align="center" valign="middle">
       <a href="https://www.youtube.com/watch?v=xgvaWdWjpQ0">
-      <img width="30%" alt="WRO Future Engineers Competition Track" src="https://github.com/user-attachments/assets/08d068fb-b5f2-45bb-9f0e-70b7402af340" />
-        <br>
+      <br>
         ▶ WATCH VIDEO
       </a>
     </td>
@@ -227,12 +225,17 @@
 
 </div>
 
-<h2 align="center">Programming and explanation</h2>
+
+
 
 <div align="center">
 
-<table align="center" width="95%">
-  <tr>
+<table>
+<tr>
+  <td colspan="2" align="center">
+    <h2>programming and explanation</h2>
+  </td>
+</tr>
     <th width="50%" align="center">FREE TRACK PROGRAMMING</th>
     <th width="50%" align="center">EXPLANATION OF THE PROGRAMMING</th>
   </tr>
