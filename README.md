@@ -87,7 +87,7 @@
 
 <br>
 
-<h2 align="center">PROJECT CONTENT</h2>
+<h2 align="center">Step-by-step guide to assembly and troubleshooting</h2>
 
 | project content step by step | what is it composed of |
 | -- | -- |
@@ -3693,3 +3693,5 @@ Our bill of materials includes a battery, but the documentation must also explai
 | Parallel parking maneuver | This version of the program **does not** include the parallel parking maneuver. |
 
 </div>
+
+
