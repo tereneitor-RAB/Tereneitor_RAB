@@ -3713,82 +3713,82 @@ Our bill of materials includes a battery, but the documentation must also explai
   <tbody>
     <tr align="center">
       <td>A12</td>
-      <td><img src="images/base_inferior.png" width="150"></td>
+      <td><img width="200" height="105" alt="image_2026-11-17_230511354" src="https://github.com/user-attachments/assets/5d524062-f8e3-4be9-8de5-da0fd91d19e6" />
       <td>1</td>
-      <td>200 × 110 × 5.5</td>
-      <td>Main chassis plate</td>
+      <td>50.2 × 110.9 × 5.5</td>
+      <td>front secondary floor</td>
       <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A12_x1.stl">STL</a></td>
     </tr>
     <tr align="center">
       <td>A11</td>
-      <td><img src="images/placa_derecha.png" width="150"></td>
+      <td><img width="200" height="105" alt="image_2026-11-17_225246556" src="https://github.com/user-attachments/assets/bcac788c-68ab-46ab-ae37-73c27067d613" />
       <td>1</td>
       <td>100 × 171 × 5.5</td>
-      <td>Large chassis plate</td>
+      <td>main floor</td>
       <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A11_x1.stl">STL</a></td>
     </tr>
     <tr align="center">
       <td>A10</td>
-      <td><img src="images/A10.png" width="150"></td>
+      <td><img width="200" height="105" alt="image_2026-11-17_225113513" src="https://github.com/user-attachments/assets/e4efbc1b-d6ab-4c55-ac89-ef0a9a98dfaa" />
       <td>1</td>
       <td>52 × 113 × 5.5</td>
-      <td></td>
+      <td>rear secondary floor</td>
       <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A09_x2.stl">STL</a></td>
     </tr>
     <tr align="center">
       <td>A04</td>
-      <td><img src="images/A04.png" width="150"></td>
+      <td><img width="200" height="105" alt="image_2026-11-17_224301002" src="https://github.com/user-attachments/assets/fa54025e-5a4b-43ec-8f82-0061feb1ae67" />
       <td>1</td>
       <td>18 × 106 × 5.5</td>
-      <td>Long arm</td>
+      <td>front turn signal</td>
       <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A04_x1.stl">STL</a></td>
     </tr>
     <tr align="center">
       <td>A09</td>
-      <td><img src="images/A09.png" width="150"></td>
+      <td><img width="200" height="105" alt="image_2026-11-17_224815352" src="https://github.com/user-attachments/assets/777f1a81-6dba-45dd-8cf9-5fb8881d9422" />
       <td>2</td>
       <td>42 × 42 × 5.5</td>
-      <td></td>
+      <td>rear axle support</td>
       <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A09_x2.stl">STL</a></td>
     </tr>
     <tr align="center">
       <td>A06</td>
-      <td><img src="images/A06.png" width="150"></td>
+      <td><img width="200" height="105" alt="image_2026-11-17_224647688" src="https://github.com/user-attachments/assets/974a06ca-d669-40de-80ed-9dbcc209e6cd" />
       <td>2</td>
       <td>34 × 35 × 5.5</td>
-      <td></td>
+      <td>servo motor mount</td>
       <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A06_x2.stl">STL</a></td>
     </tr>
     <tr align="center">
       <td>A05</td>
-      <td><img src="images/A05.png" width="150"></td>
+      <td><img width="200" height="105" alt="image_2026-11-17_224526811" src="https://github.com/user-attachments/assets/22faca35-bb91-4bf1-b2b9-5f46d34581e3" />
       <td>2</td>
       <td>33 × 38 × 5.5</td>
-      <td></td>
+      <td>front axle support</td>
       <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A05_x2.stl">STL</a></td>
     </tr>
     <tr align="center">
       <td>A02</td>
-      <td><img src="images/A02.png" width="150"></td>
+      <td><img width="200" height="105" alt="image_2026-11-17_223748572" src="https://github.com/user-attachments/assets/ab7d78df-6876-41c7-afc5-6799a34cd498" />
       <td>4</td>
       <td>Ø 18.6 × 5.5</td>
-      <td>Ring</td>
+      <td>spacers</td>
       <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A02_x4.stl">STL</a></td>
     </tr>
     <tr align="center">
       <td>A03</td>
-      <td><img src="images/A03.png" width="150"></td>
+      <td><img width="200" height="105" alt="image_2026-11-17_224029474" src="https://github.com/user-attachments/assets/e3286502-09fd-460b-90d6-b14ed32035de" />
       <td>9</td>
       <td>13.6 × 11.8 × 5.5</td>
-      <td>Hex nut</td>
+      <td>spacers</td>
       <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A03_x9.stl">STL</a></td>
     </tr>
     <tr align="center">
       <td>A01</td>
-      <td><img src="images/A01.png" width="150"></td>
+      <td><img width="200" height="105" alt="image_2026-11-17_223003677" src="https://github.com/user-attachments/assets/d897f1f3-db11-4b0c-856a-b75319397337" />
       <td>4</td>
       <td>Ø 9.2 × 5.5</td>
-      <td>Ring</td>
+      <td>spacers</td>
       <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A01_x4.stl">STL</a></td>
     </tr>
   </tbody>
