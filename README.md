@@ -3694,9 +3694,9 @@ Our bill of materials includes a battery, but the documentation must also explai
 
 </div>
 
-</div>
+<h1>4 chassis structure</h1>
 
-<h2>3.4 Chassis 3D Models</h2>
+<h2>4.1 Chassis 3D Models</h2>
 
 <table align="center">
   <thead>
@@ -3793,4 +3793,41 @@ Our bill of materials includes a battery, but the documentation must also explai
   </tbody>
 </table>
 
+</div>
+
+<h3>4.2 material and method of creation</h3>
+
+<table align="center">
+  <thead>
+    <tr>
+     <th>part</th>
+      <th>Material</th>
+      <th>Color</th>
+     <th>color code</th>
+      <th>color photo</th>
+      <th>how it was created</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A05,A06,A09,A10,A11,A12</td>
+      <td>PLA filament</td>
+      <td>dark blue</td>
+      <td> #2D4760 </td>
+      <td><img width="200" height="300" alt="image_2026-11-17_234535735" src="https://github.com/user-attachments/assets/c292c1b3-d3ef-4e49-82ae-56def1bc2223" />
+</td>
+      <td>These pieces were created using an Ender Dragon Pro 3D printer. Although this printer dates back to 2018, it is good enough to provide high-quality results for these simple parts.</td>
+    </tr>
+
+   <tr>
+      <td>A01,A02,A03,A04</td>
+      <td>acrylic</td>
+      <td>black</td>
+      <td >#060604 </td>
+      <td><img width="200" height="300" alt="image_2026-11-17_235155093" src="https://github.com/user-attachments/assets/187d41c8-4865-4a38-8350-f39d1f9f56f9" />
+</td>
+      <td>We took this part directly from the kit that inspired our idea, as we needed to be 100% certain that the component responsible for steering the front wheels was free of any bends or printing defects—since any such flaw could cause the steering mechanism to jam.</td>
+    </tr>
+  </tbody>
+</table>
 
