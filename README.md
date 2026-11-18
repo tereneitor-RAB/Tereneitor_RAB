@@ -3697,7 +3697,6 @@ Our bill of materials includes a battery, but the documentation must also explai
 </div>
 
 <h2 align="center">Chassis 3D Models</h2>
-<p align="center">All parts are 5.5 mm thick. Dimensions in millimeters.</p>
 
 <table align="center">
   <thead>
@@ -3794,7 +3793,4 @@ Our bill of materials includes a battery, but the documentation must also explai
   </tbody>
 </table>
 
-<p align="center">
-  <a href="models/piezas_STL_5.5mm.zip"><b>Download all parts (ZIP)</b></a>
-</p>
 
