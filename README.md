@@ -3694,4 +3694,107 @@ Our bill of materials includes a battery, but the documentation must also explai
 
 </div>
 
+</div>
+
+<h2 align="center">Chassis 3D Models</h2>
+<p align="center">All parts are 5.5 mm thick. Dimensions in millimeters.</p>
+
+<table align="center">
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th>Preview</th>
+      <th>Quantity</th>
+      <th>Dimensions (mm)</th>
+      <th>Description</th>
+      <th>3D Model</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr align="center">
+      <td>A12</td>
+      <td><img src="images/base_inferior.png" width="150"></td>
+      <td>1</td>
+      <td>200 × 110 × 5.5</td>
+      <td>Main chassis plate</td>
+      <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A12_x1.stl">STL</a></td>
+    </tr>
+    <tr align="center">
+      <td>A11</td>
+      <td><img src="images/placa_derecha.png" width="150"></td>
+      <td>1</td>
+      <td>100 × 171 × 5.5</td>
+      <td>Large chassis plate</td>
+      <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A11_x1.stl">STL</a></td>
+    </tr>
+    <tr align="center">
+      <td>A10</td>
+      <td><img src="images/A10.png" width="150"></td>
+      <td>1</td>
+      <td>52 × 113 × 5.5</td>
+      <td></td>
+      <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A09_x2.stl">STL</a></td>
+    </tr>
+    <tr align="center">
+      <td>A04</td>
+      <td><img src="images/A04.png" width="150"></td>
+      <td>1</td>
+      <td>18 × 106 × 5.5</td>
+      <td>Long arm</td>
+      <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A04_x1.stl">STL</a></td>
+    </tr>
+    <tr align="center">
+      <td>A09</td>
+      <td><img src="images/A09.png" width="150"></td>
+      <td>2</td>
+      <td>42 × 42 × 5.5</td>
+      <td></td>
+      <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A09_x2.stl">STL</a></td>
+    </tr>
+    <tr align="center">
+      <td>A06</td>
+      <td><img src="images/A06.png" width="150"></td>
+      <td>2</td>
+      <td>34 × 35 × 5.5</td>
+      <td></td>
+      <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A06_x2.stl">STL</a></td>
+    </tr>
+    <tr align="center">
+      <td>A05</td>
+      <td><img src="images/A05.png" width="150"></td>
+      <td>2</td>
+      <td>33 × 38 × 5.5</td>
+      <td></td>
+      <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A05_x2.stl">STL</a></td>
+    </tr>
+    <tr align="center">
+      <td>A02</td>
+      <td><img src="images/A02.png" width="150"></td>
+      <td>4</td>
+      <td>Ø 18.6 × 5.5</td>
+      <td>Ring</td>
+      <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A02_x4.stl">STL</a></td>
+    </tr>
+    <tr align="center">
+      <td>A03</td>
+      <td><img src="images/A03.png" width="150"></td>
+      <td>9</td>
+      <td>13.6 × 11.8 × 5.5</td>
+      <td>Hex nut</td>
+      <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A03_x9.stl">STL</a></td>
+    </tr>
+    <tr align="center">
+      <td>A01</td>
+      <td><img src="images/A01.png" width="150"></td>
+      <td>4</td>
+      <td>Ø 9.2 × 5.5</td>
+      <td>Ring</td>
+      <td><a href="https://github.com/tereneitor-RAB/Tereneitor_RAB/blob/main/Chassis%203D%20Models/A01_x4.stl">STL</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p align="center">
+  <a href="models/piezas_STL_5.5mm.zip"><b>Download all parts (ZIP)</b></a>
+</p>
 
