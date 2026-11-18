@@ -3696,7 +3696,7 @@ Our bill of materials includes a battery, but the documentation must also explai
 
 </div>
 
-<h2 align="center">Chassis 3D Models</h2>
+<h2>3.4 Chassis 3D Models</h2>
 
 <table align="center">
   <thead>
